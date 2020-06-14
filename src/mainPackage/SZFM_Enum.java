@@ -13,4 +13,8 @@ public class SZFM_Enum {
         udana, nieudana
     }
 
+    public enum rodzajNapedu{
+        spalinowy, jadrowy,jonowy
+    }
+
 }

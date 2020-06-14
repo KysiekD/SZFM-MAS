@@ -53,8 +53,7 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
 
     @Override
     public String toString() {
-        return "PojazdKosmiczny{" +
-                "nazwa='" + nazwa + '\'' +
+        return "nazwa='" + nazwa + '\'' +
                 ", nrPojazdu=" + nrPojazdu +
                 ", statusPojazdu=" + statusPojazdu +
                 '}';
