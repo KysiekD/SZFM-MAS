@@ -1,10 +1,18 @@
 package gui;
 
+import mainPackage.SZFM_Enum;
 import pojazd.PojazdKosmiczny;
+import przeglad.Przeglad;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PrzegladGUI<T> {
     public JPanel panel1;
@@ -24,13 +32,148 @@ public class PrzegladGUI<T> {
     private JLabel wybierzNowąCzęśćLabel;
     private JLabel wybierzStarąCzęśćLabel;
     private JLabel opisPrzegladuLabel;
+    private JCheckBox wymaganaWymianaCzęściCheckBox;
+    private PojazdKosmiczny pojazd;
+    private ActionListener zatwierdzeniePrzegladuListener;
 
     public PrzegladGUI(Iterable<T> listaPojazdow) {
         for (T pojazd : listaPojazdow) {
+
             wybierzPojazdComboBox.addItem(pojazd.toString());
         }
+        setDomyslne();
 
+
+        wybierzPojazdComboBox.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (wybierzPojazdComboBox.getSelectedItem().equals("--Wybierz pojazd--")) {
+                    return;
+                }
+                JComboBox comboBox = (JComboBox) e.getSource();
+                String pojazdInfo = (String) comboBox.getSelectedItem();
+                System.out.println("\nWybrano: " + pojazdInfo);
+                Pattern pattern = Pattern.compile("\\d{4}");
+                Matcher matcher = pattern.matcher(pojazdInfo);
+                Boolean matches = matcher.matches();
+                matcher.find();
+                System.out.println("Numer wybranego pojazdu: " + matcher.group(0));
+                int nrPojazdu = Integer.parseInt(matcher.group(0));
+
+                try {
+                    pojazd = PojazdKosmiczny.dajPojazd(nrPojazdu);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                opisPrzegladuLabel.setEnabled(true);
+                opisPrzegladuTextField.setEnabled(true);
+                pojazdWymagaNaprawyCheckBox.setEnabled(true);
+                zatwierdźPrzeglądButton.setEnabled(true);
+
+            }
+
+
+        });
+
+        zatwierdźPrzeglądButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int nrPrzegladu = 0;
+                Przeglad przeglad = null;
+                Boolean wymaganaNaprawa = false;
+                try {
+                    przeglad = Przeglad.rozpoczecieNowegoPrzegladu(pojazd, SZFM_Enum.statusPrzegladu.ukonczonyPozytywnie);
+                    nrPrzegladu = przeglad.getNrPrzegladu();
+
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                if (pojazdWymagaNaprawyCheckBox.isSelected()) {
+                    wymaganaNaprawa = true;
+                }
+                String przegladInfo = "\nZatwierdzono przegląd nr: " + String.valueOf(nrPrzegladu) +
+                        " dla pojazdu " + pojazd.toString() + "" +
+                        "\nSzczegóły przeglądu: " + przeglad.toString() +
+                        "\nWymóg naprawy: " + wymaganaNaprawa;
+                System.out.println(przegladInfo);
+
+                JOptionPane.showMessageDialog(new JFrame(), przegladInfo);
+
+                setDomyslne();
+
+            }
+        });
+
+
+        pojazdWymagaNaprawyCheckBox.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wymaganaWymianaCzęściCheckBox.setEnabled(true);
+                opisNaprawyLabel.setEnabled(true);
+                opisNaprawyTextField.setEnabled(true);
+                naprawaUdanaCheckBox.setEnabled(true);
+            }
+        });
+
+        wymaganaWymianaCzęściCheckBox.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wybierzNowąCzęśćLabel.setEnabled(true);
+                nowaCzescComboBox.setEnabled(true);
+                wybierzStarąCzęśćLabel.setEnabled(true);
+                staraCzescComboBox.setEnabled(true);
+
+            }
+        });
     }
+
+    public void setDomyslne() {
+        wybierzPojazdComboBox.setSelectedItem("--Wybierz pojazd--");
+
+        zatwierdźPrzeglądButton.setEnabled(false);
+        opisPrzegladuLabel.setEnabled(false);
+        opisPrzegladuTextField.setEnabled(false);
+        opisPrzegladuTextField.setText("");
+
+        pojazdWymagaNaprawyCheckBox.setSelected(false);
+        pojazdWymagaNaprawyCheckBox.setEnabled(false);
+
+        opisNaprawyLabel.setEnabled(false);
+        opisNaprawyTextField.setEnabled(false);
+        opisNaprawyTextField.setText("");
+
+        wymaganaWymianaCzęściCheckBox.setEnabled(false);
+        wymaganaWymianaCzęściCheckBox.setSelected(false);
+
+        wybierzNowąCzęśćLabel.setEnabled(false);
+        nowaCzescComboBox.setEnabled(false);
+
+        wybierzStarąCzęśćLabel.setEnabled(false);
+        staraCzescComboBox.setEnabled(false);
+        naprawaUdanaCheckBox.setSelected(true);
+        naprawaUdanaCheckBox.setEnabled(false);
+    }
+
 
     {
 // GUI initializer generated by IntelliJ IDEA GUI Designer
@@ -114,7 +257,7 @@ public class PrzegladGUI<T> {
         wybierzStarąCzęśćLabel.setText("Wybierz starą część:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.SOUTH;
@@ -123,7 +266,7 @@ public class PrzegladGUI<T> {
         staraCzescComboBox.setEditable(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel6.add(staraCzescComboBox, gbc);
@@ -131,11 +274,26 @@ public class PrzegladGUI<T> {
         panel7.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel6.add(panel7, gbc);
+        wymaganaWymianaCzęściCheckBox = new JCheckBox();
+        wymaganaWymianaCzęściCheckBox.setText("Wymagana wymiana części");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        panel7.add(wymaganaWymianaCzęściCheckBox, gbc);
+        final JPanel panel8 = new JPanel();
+        panel8.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel3.add(panel7, gbc);
+        panel3.add(panel8, gbc);
         wybierzNowąCzęśćLabel = new JLabel();
         wybierzNowąCzęśćLabel.setText("Wybierz nową część:");
         gbc = new GridBagConstraints();
@@ -144,7 +302,7 @@ public class PrzegladGUI<T> {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.SOUTH;
-        panel7.add(wybierzNowąCzęśćLabel, gbc);
+        panel8.add(wybierzNowąCzęśćLabel, gbc);
         nowaCzescComboBox = new JComboBox();
         nowaCzescComboBox.setEditable(true);
         gbc = new GridBagConstraints();
@@ -152,16 +310,16 @@ public class PrzegladGUI<T> {
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel7.add(nowaCzescComboBox, gbc);
-        final JPanel panel8 = new JPanel();
-        panel8.setLayout(new GridBagLayout());
+        panel8.add(nowaCzescComboBox, gbc);
+        final JPanel panel9 = new JPanel();
+        panel9.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel3.add(panel8, gbc);
+        panel3.add(panel9, gbc);
         opisNaprawyLabel = new JLabel();
         opisNaprawyLabel.setText("Opis naprawy:");
         gbc = new GridBagConstraints();
@@ -170,61 +328,62 @@ public class PrzegladGUI<T> {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.SOUTH;
-        panel8.add(opisNaprawyLabel, gbc);
+        panel9.add(opisNaprawyLabel, gbc);
         opisNaprawyTextField = new JTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel8.add(opisNaprawyTextField, gbc);
-        final JPanel panel9 = new JPanel();
-        panel9.setLayout(new GridBagLayout());
+        panel9.add(opisNaprawyTextField, gbc);
+        final JPanel panel10 = new JPanel();
+        panel10.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel3.add(panel9, gbc);
+        panel3.add(panel10, gbc);
         naprawaUdanaCheckBox = new JCheckBox();
         naprawaUdanaCheckBox.setHideActionText(false);
+        naprawaUdanaCheckBox.setSelected(true);
         naprawaUdanaCheckBox.setText("Naprawa udana");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        panel9.add(naprawaUdanaCheckBox, gbc);
-        final JPanel panel10 = new JPanel();
-        panel10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        panel10.add(naprawaUdanaCheckBox, gbc);
+        final JPanel panel11 = new JPanel();
+        panel11.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel3.add(panel10, gbc);
+        panel3.add(panel11, gbc);
         anulujButton = new JButton();
         anulujButton.setText("Anuluj");
-        panel10.add(anulujButton);
+        panel11.add(anulujButton);
         zatwierdźPrzeglądButton = new JButton();
         zatwierdźPrzeglądButton.setText("Zatwierdź przegląd");
-        panel10.add(zatwierdźPrzeglądButton);
-        final JPanel panel11 = new JPanel();
-        panel11.setLayout(new GridBagLayout());
-        panel2.add(panel11, BorderLayout.NORTH);
+        panel11.add(zatwierdźPrzeglądButton);
+        final JPanel panel12 = new JPanel();
+        panel12.setLayout(new GridBagLayout());
+        panel2.add(panel12, BorderLayout.NORTH);
         rozpocznijNaprawęPojazduLabel = new JLabel();
         Font rozpocznijNaprawęPojazduLabelFont = this.$$$getFont$$$(null, -1, 20, rozpocznijNaprawęPojazduLabel.getFont());
         if (rozpocznijNaprawęPojazduLabelFont != null)
             rozpocznijNaprawęPojazduLabel.setFont(rozpocznijNaprawęPojazduLabelFont);
-        rozpocznijNaprawęPojazduLabel.setText("Rozpocznij naprawę pojazdu");
+        rozpocznijNaprawęPojazduLabel.setText("Zaraportuj przegląd pojazdu");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        panel11.add(rozpocznijNaprawęPojazduLabel, gbc);
+        panel12.add(rozpocznijNaprawęPojazduLabel, gbc);
         wybierzPojazdLabel = new JLabel();
         wybierzPojazdLabel.setText("Wybierz pojazd:");
         gbc = new GridBagConstraints();
@@ -233,7 +392,7 @@ public class PrzegladGUI<T> {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.SOUTH;
-        panel11.add(wybierzPojazdLabel, gbc);
+        panel12.add(wybierzPojazdLabel, gbc);
         wybierzPojazdComboBox = new JComboBox();
         wybierzPojazdComboBox.setEditable(true);
         gbc = new GridBagConstraints();
@@ -243,7 +402,7 @@ public class PrzegladGUI<T> {
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel11.add(wybierzPojazdComboBox, gbc);
+        panel12.add(wybierzPojazdComboBox, gbc);
     }
 
     /**

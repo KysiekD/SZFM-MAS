@@ -5,9 +5,9 @@ import mainPackage.SZFM_Enum;
 public class SondaKosmiczna extends PojazdKosmiczny {
     private SZFM_Enum.rodzajNapedu rodzajNapedu;
 
-    public SondaKosmiczna(String nazwa, int nrPojazdu, int rokProdukcji, int maksymalnyZasiegWParsekach,
+    public SondaKosmiczna(String nazwa, int rokProdukcji, int maksymalnyZasiegWParsekach,
                           SZFM_Enum.rodzajNapedu rodzajNapedu) {
-        super(nazwa, nrPojazdu, rokProdukcji, maksymalnyZasiegWParsekach);
+        super(nazwa, rokProdukcji, maksymalnyZasiegWParsekach);
         this.rodzajNapedu = rodzajNapedu;
     }
 

@@ -17,4 +17,8 @@ public class SZFM_Enum {
         spalinowy, jadrowy,jonowy
     }
 
+    public enum asocjacjaPojazdPrzeglad{
+        pojazd,przeglad
+    }
+
 }

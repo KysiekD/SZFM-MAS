@@ -5,9 +5,9 @@ public class PromKosmiczny extends PojazdKosmiczny {
     private int ladownoscWTonach;
     private int gruboscPowlokiwCm;
 
-    public PromKosmiczny(String nazwa, int nrPojazdu, int rokProdukcji, int maksymalnyZasiegWParsekach,
-                        int liczbaZalogi, int ladownoscWTonach, int gruboscPowlokiwCm) {
-        super(nazwa, nrPojazdu, rokProdukcji, maksymalnyZasiegWParsekach);
+    public PromKosmiczny(String nazwa, int rokProdukcji, int maksymalnyZasiegWParsekach,
+                        int liczbaZalogi, int ladownoscWTonach, int gruboscPowlokiwCm)  {
+        super(nazwa, rokProdukcji, maksymalnyZasiegWParsekach);
         this.liczbaZalogi = liczbaZalogi;
         this.ladownoscWTonach = ladownoscWTonach;
         this.gruboscPowlokiwCm = gruboscPowlokiwCm;

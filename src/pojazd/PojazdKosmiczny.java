@@ -1,9 +1,12 @@
 package pojazd;
 
+import mainPackage.ObjectPlus;
 import mainPackage.ObjectPlusPlus;
 import mainPackage.SZFM_Enum;
 import ogolne.MisjaKosmiczna;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -17,14 +20,52 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
     private Date dataOstatniegoPrzegladu;
     private Date dataWaznosciPrzegladu;
     private SZFM_Enum.statusPojazdu statusPojazdu;
+    private static int najwyzszyNrPojazdu = 1000; //pole klasowe
 
 
-    protected PojazdKosmiczny(String nazwa, int nrPojazdu, int rokProdukcji, int maksymalnyZasiegWParsekach) {
+    protected PojazdKosmiczny(String nazwa, int rokProdukcji, int maksymalnyZasiegWParsekach) {
         this.nazwa = nazwa;
-        this.nrPojazdu = nrPojazdu;
+        najwyzszyNrPojazdu = najwyzszyNrPojazdu+1;
+        this.nrPojazdu = najwyzszyNrPojazdu;
         this.rokProdukcji = rokProdukcji;
         this.maksymalnyZasiegWParsekach = maksymalnyZasiegWParsekach;
         statusPojazdu = gotowy;
+    }
+
+    /**
+     * jeśli nie ma ekstensji którejś klasy to zostanie przechwycony błąd
+     * @return
+     */
+    public static ArrayList<PojazdKosmiczny> dajListaPojazdow()   {
+        ArrayList<PojazdKosmiczny> listaPojazdow = new ArrayList<>();
+        Iterable<SondaKosmiczna> listaSond = null;
+        try {
+            listaSond = SondaKosmiczna.getExtent(SondaKosmiczna.class);
+            listaPojazdow.addAll((Collection<? extends PojazdKosmiczny>) listaSond);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Iterable<PromKosmiczny> listaPromow = null;
+        try {
+            listaPromow = PromKosmiczny.getExtent(PromKosmiczny.class);
+            listaPojazdow.addAll((Collection<? extends PojazdKosmiczny>) listaPromow);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        return listaPojazdow;
+    }
+
+    public static PojazdKosmiczny dajPojazd(int nrPojazdu) throws Exception {
+
+        ArrayList<PojazdKosmiczny> listaPojazdow = PojazdKosmiczny.dajListaPojazdow();
+
+        for(PojazdKosmiczny pojazd: listaPojazdow) {
+            if (pojazd.getNrPojazdu() == nrPojazdu) {
+                return pojazd;
+            }
+        }
+        throw new Exception("Nie znaleziono pojazdu o numerze: "+String.valueOf(nrPojazdu));
     }
 
     public boolean czyWaznyPrzeglad(){
@@ -53,10 +94,10 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
 
     @Override
     public String toString() {
-        return "nazwa='" + nazwa + '\'' +
-                ", nrPojazdu=" + nrPojazdu +
-                ", statusPojazdu=" + statusPojazdu +
-                '}';
+        return
+                nrPojazdu +
+                 ", '" + nazwa + '\'' +
+                ", status: " + statusPojazdu;
     }
 
     //GETTERS AND SETTERS====================================

@@ -5,6 +5,7 @@ import mainPackage.SZFM_Enum;
 import pojazd.PojazdKosmiczny;
 import pracownik.Inzynier;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Przeglad extends ObjectPlusPlus {
@@ -12,20 +13,26 @@ public class Przeglad extends ObjectPlusPlus {
     private Date dataPrzegladu;
     private SZFM_Enum.statusPrzegladu statusPrzegladu;
     private Date dataWaznosciPrzegladu;
+    public static int najwyzszyNrPrzegladu=70000;
+    public static int czasWaznosciPrzegladuWDniach = 365;
 
 
-    private Przeglad(Date dataPrzegladu, SZFM_Enum.statusPrzegladu statusPrzegladu, Date dataWaznosciPrzegladu) {
-        //...this.nrPrzegladu = ..........
+    private Przeglad(Date dataPrzegladu, SZFM_Enum.statusPrzegladu statusPrzegladu) {
+        najwyzszyNrPrzegladu = najwyzszyNrPrzegladu+1;
+        this.nrPrzegladu = najwyzszyNrPrzegladu;
         this.dataPrzegladu = dataPrzegladu;
         this.statusPrzegladu = statusPrzegladu;
-        this.dataWaznosciPrzegladu = dataWaznosciPrzegladu;
+        this.dataWaznosciPrzegladu = new Date(dataPrzegladu.getTime()+(czasWaznosciPrzegladuWDniach*86400000L));
     }
 
-    public void rozpoczecieNowegoPrzegladu(PojazdKosmiczny pojazd, Date dataPrzegladu,
-                                           SZFM_Enum.statusPrzegladu statusPrzegladu, Date dataWaznosciPrzegladu){
-            /*Konstruktor................
-             Tworzenie powiazania..........*/
+    public static Przeglad rozpoczecieNowegoPrzegladu(PojazdKosmiczny pojazd,
+                                           SZFM_Enum.statusPrzegladu statusPrzegladu) throws Exception {
+        Przeglad przeglad = new Przeglad(Calendar.getInstance().getTime(), statusPrzegladu);
 
+            pojazd.addPart(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd.toString(),
+                    SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad.toString(), przeglad);
+
+        return przeglad;
     }
 
     public void przydzielInzyniera(Inzynier inzynier){
@@ -44,12 +51,11 @@ public class Przeglad extends ObjectPlusPlus {
 
     @Override
     public String toString() {
-        return "Przeglad{" +
-                "nrPrzegladu=" + nrPrzegladu +
-                ", dataPrzegladu=" + dataPrzegladu +
-                ", statusPrzegladu=" + statusPrzegladu +
-                ", dataWaznosciPrzegladu=" + dataWaznosciPrzegladu +
-                '}';
+        return "Przeglad: " +
+                "numer przeglądu: " + nrPrzegladu +
+                ", data wykonania: " + dataPrzegladu +
+                ", status: " + statusPrzegladu +
+                ", data ważności: " + dataWaznosciPrzegladu;
     }
 
     public int getNrPrzegladu() {
