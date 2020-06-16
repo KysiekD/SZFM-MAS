@@ -4,6 +4,7 @@ import mainPackage.ObjectPlus;
 import mainPackage.ObjectPlusPlus;
 import mainPackage.SZFM_Enum;
 import ogolne.MisjaKosmiczna;
+import przeglad.Czesc;
 import przeglad.Przeglad;
 
 import java.util.*;
@@ -21,6 +22,8 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
     private static int najwyzszyNrPojazdu = 1000; //pole klasowe
     private List<Przeglad> przeglady = new ArrayList<>();
     private static Set<Przeglad> wszystkiePrzegladyList = new HashSet<>();
+    private List<Czesc> czesci = new ArrayList<>();
+    private Set<Czesc> wszystkieCzesciWPojazdach = new HashSet<>();
 
 
     protected PojazdKosmiczny(String nazwa, int rokProdukcji, int maksymalnyZasiegWParsekach) {
@@ -42,6 +45,30 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         wszystkiePrzegladyList.add(przeglad);
         this.addPart(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd_w_przegladzie.toString(),
                 SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad_pojazdu.toString(), przeglad);
+    }
+
+    public void addCzescDoPojazdu(Czesc czesc) throws Exception {
+        if(!czesci.contains(czesc)) {
+            if (wszystkieCzesciWPojazdach.contains(czesc)) {
+                throw new Exception("Ten przeglad jest przypisany do innego pojazdu!");
+            }
+        }
+        this.addLink(SZFM_Enum.asocjacjaPojazdCzesc.pojazd_z_czescia.toString(),
+                SZFM_Enum.asocjacjaPojazdCzesc.czesc_w_pojezdzie.toString(), czesc);
+        czesci.add(czesc);
+        wszystkieCzesciWPojazdach.add(czesc);
+
+        System.out.println("\n===Informacje o stworzonych asocjacjach:===");
+        this.showLinks(SZFM_Enum.asocjacjaPojazdCzesc.pojazd_z_czescia.toString(), System.out);
+        czesc.showLinks(SZFM_Enum.asocjacjaPojazdCzesc.czesc_w_pojezdzie.toString(), System.out);
+        System.out.println("\n===Koniec informacji o asocjacjach.===");
+
+    }
+
+
+
+    public List<Czesc> dajCzesciPojazdu(){
+        return czesci;
     }
 
     /**

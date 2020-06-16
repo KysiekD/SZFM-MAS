@@ -13,9 +13,6 @@ public class Przeglad extends ObjectPlusPlus {
     private SZFM_Enum.statusPrzegladu statusPrzegladu;
     private Date dataWaznosciPrzegladu;
     private String opisPrzegladu;
-
-
-
     private static int najwyzszyNrPrzegladu=70000;
     private static int czasWaznosciPrzegladuWDniach = 365;
     private List<Naprawa> naprawy;
@@ -38,8 +35,12 @@ public class Przeglad extends ObjectPlusPlus {
         }
         Przeglad przeglad = new Przeglad(Calendar.getInstance().getTime(), statusPrzegladu);
             pojazd.addPrzeglad(przeglad);
-            /*pojazd.addPart(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd.toString(),
-                    SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad.toString(), przeglad);*/
+        System.out.println("\n===Informacje o stworzonych asocjacjach:===");
+
+        przeglad.showLinks(SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad_pojazdu.toString(), System.out);
+        pojazd.showLinks(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd_w_przegladzie.toString(), System.out);
+
+        System.out.println("\n===Koniec informacji o asocjacjach.===");
 
 
         return przeglad;

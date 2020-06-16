@@ -2,6 +2,7 @@ package gui;
 
 import mainPackage.SZFM_Enum;
 import pojazd.PojazdKosmiczny;
+import przeglad.Czesc;
 import przeglad.Naprawa;
 import przeglad.Przeglad;
 
@@ -130,12 +131,7 @@ public class PrzegladGUI<T> {
                     opisPrzegladu = opisPrzegladuTextField.getText();
                     przeglad.setOpisPrzegladu(opisPrzegladu);
                     nrPrzegladu = przeglad.getNrPrzegladu();
-                    System.out.println("\n===Informacje o stworzonych asocjacjach:===");
 
-                    przeglad.showLinks(SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad_pojazdu.toString(), System.out);
-                    pojazd.showLinks(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd_w_przegladzie.toString(), System.out);
-
-                    System.out.println("\n===Koniec informacji o asocjacjach.===");
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -145,10 +141,7 @@ public class PrzegladGUI<T> {
                         Naprawa naprawa = Naprawa.rozpocznijNowaNaprawe(przeglad, statusNaprawy);
                         opisNaprawy = opisNaprawyTextField.getText();
                         naprawa.setOpisNaprawy(opisNaprawy);
-                        System.out.println("\n===Informacje o stworzonych asocjacjach:===");
-                        przeglad.showLinks(SZFM_Enum.asocjacjaPrzegladNaprawa.przeglad_z_naprawami.toString(), System.out);
-                        naprawa.showLinks(SZFM_Enum.asocjacjaPrzegladNaprawa.naprawa_podczas_przegladu.toString(), System.out);
-                        System.out.println("\n===Koniec informacji o asocjacjach.===");
+
 
                         naprawaInfo = "Zatwierdzono naprawe nr: " + naprawa.getNrNaprawy() +
                                 ", do przeglądu: " + przeglad.getNrPrzegladu() +
@@ -203,6 +196,11 @@ public class PrzegladGUI<T> {
                 nowaCzescComboBox.setEnabled(true);
                 wybierzStarąCzęśćLabel.setEnabled(true);
                 staraCzescComboBox.setEnabled(true);
+                staraCzescComboBox.setSelectedItem("--Wybierz starą część--");
+                Iterable<Czesc> czesciWPojezdzie = pojazd.dajCzesciPojazdu();
+                for (Czesc czesc : czesciWPojezdzie) {
+                    staraCzescComboBox.addItem(czesc);
+                }
 
             }
         });
@@ -226,11 +224,16 @@ public class PrzegladGUI<T> {
         wymaganaWymianaCzęściCheckBox.setEnabled(false);
         wymaganaWymianaCzęściCheckBox.setSelected(false);
 
+        nowaCzescComboBox.setSelectedItem("--Wybierz nową część--");
+        nowaCzescComboBox.removeAllItems();
         wybierzNowąCzęśćLabel.setEnabled(false);
         nowaCzescComboBox.setEnabled(false);
 
+        staraCzescComboBox.setSelectedItem("--Wybierz starą część--");
+        staraCzescComboBox.removeAllItems();
         wybierzStarąCzęśćLabel.setEnabled(false);
         staraCzescComboBox.setEnabled(false);
+
         naprawaUdanaCheckBox.setSelected(true);
         naprawaUdanaCheckBox.setEnabled(false);
     }

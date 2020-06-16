@@ -25,4 +25,8 @@ public class SZFM_Enum {
         naprawa_podczas_przegladu,przeglad_z_naprawami
     }
 
+    public enum asocjacjaPojazdCzesc{
+        czesc_w_pojezdzie,pojazd_z_czescia
+    }
+
 }

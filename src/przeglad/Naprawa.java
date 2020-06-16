@@ -22,7 +22,10 @@ public class Naprawa extends ObjectPlusPlus {
         }
         Naprawa naprawa = new Naprawa(statusNaprawy);
         przeglad.addNaprawa(naprawa);
-
+        System.out.println("\n===Informacje o stworzonych asocjacjach:===");
+        przeglad.showLinks(SZFM_Enum.asocjacjaPrzegladNaprawa.przeglad_z_naprawami.toString(), System.out);
+        naprawa.showLinks(SZFM_Enum.asocjacjaPrzegladNaprawa.naprawa_podczas_przegladu.toString(), System.out);
+        System.out.println("\n===Koniec informacji o asocjacjach.===");
         return naprawa;
     }
 

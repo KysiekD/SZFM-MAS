@@ -9,9 +9,11 @@ public class Czesc extends ObjectPlusPlus {
     //private double cena;
     private double waga; //w kg
     private double wagaElektroniki; //w kg
+    private static int najwyzszyNrCzesci = 666771;
 
     public Czesc(String nazwa, double waga, double wagaElektroniki) {
-        //this.nrCzesci=........
+        najwyzszyNrCzesci = najwyzszyNrCzesci +1;
+        this.nrCzesci = najwyzszyNrCzesci;
         this.nazwa = nazwa;
         this.waga = waga;
         this.wagaElektroniki = wagaElektroniki; //nie moze byc wieksza niz waga calosci
@@ -19,24 +21,20 @@ public class Czesc extends ObjectPlusPlus {
 
     //drugi konstruktor dla czesci bez elektroniki
     public Czesc(String nazwa, double waga) {
-        //this.nrCzesci=........
+        najwyzszyNrCzesci = najwyzszyNrCzesci +1;
+        this.nrCzesci = najwyzszyNrCzesci;
         this.nazwa = nazwa;
         this.waga = waga;
         this.wagaElektroniki = 0;
     }
 
-    public void usunCzescZPojazdu(int nrCzesci, PojazdKosmiczny pojazd){
 
-    }
 
     @Override
     public String toString() {
-        return "Czesc{" +
-                "nazwa='" + nazwa + '\'' +
-                ", nrCzesci=" + nrCzesci +
-                ", waga=" + waga +
-                ", wagaElektroniki=" + wagaElektroniki +
-                '}';
+        return "Część: " +
+                "'" + nazwa + '\'' +
+                ", nr: " + nrCzesci;
     }
 
     public double getWagaElektroniki() {
