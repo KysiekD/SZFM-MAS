@@ -5,16 +5,17 @@ import mainPackage.SZFM_Enum;
 import pojazd.PojazdKosmiczny;
 import pracownik.Inzynier;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class Przeglad extends ObjectPlusPlus {
     private int nrPrzegladu;  //unikalny......
     private Date dataPrzegladu;
     private SZFM_Enum.statusPrzegladu statusPrzegladu;
     private Date dataWaznosciPrzegladu;
-    public static int najwyzszyNrPrzegladu=70000;
-    public static int czasWaznosciPrzegladuWDniach = 365;
+    private static int najwyzszyNrPrzegladu=70000;
+    private static int czasWaznosciPrzegladuWDniach = 365;
+    private List<Naprawa> naprawy;
+    private static Set<Naprawa> wszystkieNaprawy = new HashSet<>();
 
 
     private Przeglad(Date dataPrzegladu, SZFM_Enum.statusPrzegladu statusPrzegladu) {
@@ -23,16 +24,34 @@ public class Przeglad extends ObjectPlusPlus {
         this.dataPrzegladu = dataPrzegladu;
         this.statusPrzegladu = statusPrzegladu;
         this.dataWaznosciPrzegladu = new Date(dataPrzegladu.getTime()+(czasWaznosciPrzegladuWDniach*86400000L));
+        naprawy = new ArrayList<>();
     }
 
     public static Przeglad rozpoczecieNowegoPrzegladu(PojazdKosmiczny pojazd,
                                            SZFM_Enum.statusPrzegladu statusPrzegladu) throws Exception {
+        if(pojazd==null){
+            throw new Exception("Pojazd nie istnieje!");
+        }
         Przeglad przeglad = new Przeglad(Calendar.getInstance().getTime(), statusPrzegladu);
+            pojazd.addPrzeglad(przeglad);
+            /*pojazd.addPart(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd.toString(),
+                    SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad.toString(), przeglad);*/
 
-            pojazd.addPart(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd.toString(),
-                    SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad.toString(), przeglad);
 
         return przeglad;
+    }
+
+    public void addNaprawa(Naprawa naprawa) throws Exception {
+        if(!naprawy.contains(naprawa)) {
+            if(wszystkieNaprawy.contains(naprawa)) {
+                throw new Exception("Ta naprawa przypisana jest juz do innego przegladu!");
+            }
+        }
+        naprawy.add(naprawa);
+        wszystkieNaprawy.add(naprawa);
+        this.addPart(SZFM_Enum.asocjacjaPrzegladNaprawa.przeglad_z_naprawami.toString(),
+                SZFM_Enum.asocjacjaPrzegladNaprawa.naprawa_podczas_przegladu.toString(),naprawa);
+
     }
 
     public void przydzielInzyniera(Inzynier inzynier){

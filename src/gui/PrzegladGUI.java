@@ -2,6 +2,7 @@ package gui;
 
 import mainPackage.SZFM_Enum;
 import pojazd.PojazdKosmiczny;
+import przeglad.Naprawa;
 import przeglad.Przeglad;
 
 import javax.swing.*;
@@ -94,18 +95,34 @@ public class PrzegladGUI<T> {
                 try {
                     przeglad = Przeglad.rozpoczecieNowegoPrzegladu(pojazd, SZFM_Enum.statusPrzegladu.ukonczonyPozytywnie);
                     nrPrzegladu = przeglad.getNrPrzegladu();
+                    System.out.println("\n===Informacje o stworzonych asocjacjach:===");
 
+                    przeglad.showLinks(SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad_pojazdu.toString(), System.out);
+                    pojazd.showLinks(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd_w_przegladzie.toString(), System.out);
+
+                    System.out.println("\n===Koniec informacji o asocjacjach.===");
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
                 if (pojazdWymagaNaprawyCheckBox.isSelected()) {
                     wymaganaNaprawa = true;
+                    try {
+
+                        Naprawa naprawa = Naprawa.rozpocznijNowaNaprawe(przeglad, SZFM_Enum.statusNaprawy.udana);
+                        System.out.println("\n===Informacje o stworzonych asocjacjach:===");
+                        przeglad.showLinks(SZFM_Enum.asocjacjaPrzegladNaprawa.przeglad_z_naprawami.toString(), System.out);
+                        naprawa.showLinks(SZFM_Enum.asocjacjaPrzegladNaprawa.naprawa_podczas_przegladu.toString(), System.out);
+                        System.out.println("\n===Koniec informacji o asocjacjach.===");
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
                 }
                 String przegladInfo = "\nZatwierdzono przegląd nr: " + String.valueOf(nrPrzegladu) +
                         " dla pojazdu " + pojazd.toString() + "" +
                         "\nSzczegóły przeglądu: " + przeglad.toString() +
                         "\nWymóg naprawy: " + wymaganaNaprawa;
                 System.out.println(przegladInfo);
+
 
                 JOptionPane.showMessageDialog(new JFrame(), przegladInfo);
 

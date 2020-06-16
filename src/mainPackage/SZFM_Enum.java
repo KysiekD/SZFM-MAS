@@ -18,7 +18,11 @@ public class SZFM_Enum {
     }
 
     public enum asocjacjaPojazdPrzeglad{
-        pojazd,przeglad
+        pojazd_w_przegladzie,przeglad_pojazdu
+    }
+
+    public enum asocjacjaPrzegladNaprawa{
+        naprawa_podczas_przegladu,przeglad_z_naprawami
     }
 
 }

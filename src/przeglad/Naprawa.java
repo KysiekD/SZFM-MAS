@@ -7,10 +7,23 @@ public class Naprawa extends ObjectPlusPlus {
     private int nrNaprawy; //unikalny....
     private String opisNaprawy;
     private SZFM_Enum.statusNaprawy statusNaprawy;
+    private static int najwyzszyNrNaprawy = 87722;
 
-    public Naprawa(SZFM_Enum.statusNaprawy statusNaprawy) {
-        //this.nrNaprawy = ...............
+    private Naprawa(SZFM_Enum.statusNaprawy statusNaprawy) {
+        najwyzszyNrNaprawy = najwyzszyNrNaprawy +1;
+        this.nrNaprawy = najwyzszyNrNaprawy;
         this.statusNaprawy = statusNaprawy;
+    }
+
+    public static Naprawa rozpocznijNowaNaprawe(Przeglad przeglad,
+                                                SZFM_Enum.statusNaprawy statusNaprawy) throws Exception {
+        if(przeglad==null){
+            throw new Exception("Przegląd nie istnieje!");
+        }
+        Naprawa naprawa = new Naprawa(statusNaprawy);
+        przeglad.addNaprawa(naprawa);
+
+        return naprawa;
     }
 
     public void wymienCzesc(Czesc staraCzesc, Czesc nowaCzesc){

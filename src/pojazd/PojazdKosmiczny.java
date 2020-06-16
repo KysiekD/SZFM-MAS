@@ -4,11 +4,9 @@ import mainPackage.ObjectPlus;
 import mainPackage.ObjectPlusPlus;
 import mainPackage.SZFM_Enum;
 import ogolne.MisjaKosmiczna;
+import przeglad.Przeglad;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static mainPackage.SZFM_Enum.statusPojazdu.*;
 
@@ -21,6 +19,8 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
     private Date dataWaznosciPrzegladu;
     private SZFM_Enum.statusPojazdu statusPojazdu;
     private static int najwyzszyNrPojazdu = 1000; //pole klasowe
+    private List<Przeglad> przeglady = new ArrayList<>();
+    private static Set<Przeglad> wszystkiePrzegladyList = new HashSet<>();
 
 
     protected PojazdKosmiczny(String nazwa, int rokProdukcji, int maksymalnyZasiegWParsekach) {
@@ -30,6 +30,18 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         this.rokProdukcji = rokProdukcji;
         this.maksymalnyZasiegWParsekach = maksymalnyZasiegWParsekach;
         statusPojazdu = gotowy;
+    }
+
+    public void addPrzeglad(Przeglad przeglad) throws Exception {
+        if(!przeglady.contains(przeglad)) {
+            if (wszystkiePrzegladyList.contains(przeglad)) {
+                throw new Exception("Ten przeglad jest przypisany do innego pojazdu!");
+            }
+        }
+        przeglady.add(przeglad);
+        wszystkiePrzegladyList.add(przeglad);
+        this.addPart(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd_w_przegladzie.toString(),
+                SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad_pojazdu.toString(), przeglad);
     }
 
     /**
