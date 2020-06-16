@@ -96,7 +96,7 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
     }
 
     public void zmienStatus(SZFM_Enum.statusPojazdu status){
-        //.............
+        this.statusPojazdu = status;
     }
 
     public List<PojazdKosmiczny> pokazGotowePojazdy(){
@@ -109,7 +109,7 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         return
                 nrPojazdu +
                  ", '" + nazwa + '\'' +
-                ", status: " + statusPojazdu;
+                ", aktualny status: " + statusPojazdu;
     }
 
     //GETTERS AND SETTERS====================================

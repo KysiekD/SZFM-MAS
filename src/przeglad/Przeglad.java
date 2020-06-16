@@ -12,6 +12,10 @@ public class Przeglad extends ObjectPlusPlus {
     private Date dataPrzegladu;
     private SZFM_Enum.statusPrzegladu statusPrzegladu;
     private Date dataWaznosciPrzegladu;
+    private String opisPrzegladu;
+
+
+
     private static int najwyzszyNrPrzegladu=70000;
     private static int czasWaznosciPrzegladuWDniach = 365;
     private List<Naprawa> naprawy;
@@ -52,6 +56,14 @@ public class Przeglad extends ObjectPlusPlus {
         this.addPart(SZFM_Enum.asocjacjaPrzegladNaprawa.przeglad_z_naprawami.toString(),
                 SZFM_Enum.asocjacjaPrzegladNaprawa.naprawa_podczas_przegladu.toString(),naprawa);
 
+    }
+
+    public void setOpisPrzegladu(String opisPrzegladu) {
+        this.opisPrzegladu = opisPrzegladu;
+    }
+
+    public String getOpisPrzegladu() {
+        return opisPrzegladu;
     }
 
     public void przydzielInzyniera(Inzynier inzynier){
