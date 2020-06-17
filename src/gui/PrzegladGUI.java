@@ -11,8 +11,10 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,14 +38,31 @@ public class PrzegladGUI<T> {
     private JLabel opisPrzegladuLabel;
     private JCheckBox wymaganaWymianaCzęściCheckBox;
     private PojazdKosmiczny pojazd;
-    private ActionListener zatwierdzeniePrzegladuListener;
+    //private ActionListener zatwierdzeniePrzegladuListener;
+    private Czesc staraCzesc;
+    private Czesc nowaCzesc;
+
+    public int dajNrZWybranegoElementuComboBox(ActionEvent k) {
+        JComboBox comboBox = (JComboBox) k.getSource();
+        String infoElementu = (String) comboBox.getSelectedItem();
+        System.out.println("\nWybrano: " + infoElementu);
+        //Pattern pattern = Pattern.compile("\\d{4}");
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(infoElementu);
+        Boolean matches = matcher.matches();
+        matcher.find();
+        System.out.println("Numer wybranego elementu: " + matcher.group(0));
+        int nrElementu = Integer.parseInt(matcher.group(0));
+        return nrElementu;
+    }
 
     public PrzegladGUI(Iterable<T> listaPojazdow) {
         for (T pojazd : listaPojazdow) {
 
-            wybierzPojazdComboBox.addItem(pojazd.toString());
+            //wybierzPojazdComboBox.addItem(pojazd.toString());
+            wybierzPojazdComboBox.addItem(pojazd);
         }
-        setDomyslne();
+        seWszystkotDomyslne();
 
 
         wybierzPojazdComboBox.addActionListener(new ActionListener() {
@@ -54,21 +73,30 @@ public class PrzegladGUI<T> {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (wybierzPojazdComboBox.getSelectedItem().equals("--Wybierz pojazd--")) {
+                if (Objects.equals(wybierzPojazdComboBox.getSelectedItem(), "--Wybierz pojazd--") ||
+                        wybierzPojazdComboBox.getSelectedItem() == null) {
                     return;
                 }
-                JComboBox comboBox = (JComboBox) e.getSource();
+                setDomyslnePoZmianiePojazdu();
+                /*JComboBox comboBox = (JComboBox) e.getSource();
                 String pojazdInfo = (String) comboBox.getSelectedItem();
                 System.out.println("\nWybrano: " + pojazdInfo);
-                Pattern pattern = Pattern.compile("\\d{4}");
+                //Pattern pattern = Pattern.compile("\\d{4}");
+                Pattern pattern = Pattern.compile("\\d+");
                 Matcher matcher = pattern.matcher(pojazdInfo);
                 Boolean matches = matcher.matches();
                 matcher.find();
                 System.out.println("Numer wybranego pojazdu: " + matcher.group(0));
-                int nrPojazdu = Integer.parseInt(matcher.group(0));
+                int nrPojazdu = Integer.parseInt(matcher.group(0));*/
+
+                //int nrPojazdu = dajNrZWybranegoElementuComboBox(e);
+
+                JComboBox comboBox = (JComboBox) e.getSource();
+                pojazd = (PojazdKosmiczny) comboBox.getSelectedItem();
+                System.out.println("Wybrano pojazd: " + pojazd);
 
                 try {
-                    pojazd = PojazdKosmiczny.dajPojazd(nrPojazdu);
+                    //pojazd = PojazdKosmiczny.dajPojazd(nrPojazdu);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -163,7 +191,8 @@ public class PrzegladGUI<T> {
 
                 JOptionPane.showMessageDialog(new JFrame(), przegladInfo + "\n" + naprawaInfo);
 
-                setDomyslne();
+                seWszystkotDomyslne();
+
 
             }
         });
@@ -194,6 +223,17 @@ public class PrzegladGUI<T> {
             public void actionPerformed(ActionEvent e) {
                 wybierzNowąCzęśćLabel.setEnabled(true);
                 nowaCzescComboBox.setEnabled(true);
+                nowaCzescComboBox.setSelectedItem("--Wybierz nową część--");
+                try {
+                    ArrayList<Czesc> wolneCzesci = Czesc.dajWolneCzesci();
+                    for (Czesc czesc : wolneCzesci) {
+                        nowaCzescComboBox.addItem(czesc);
+                    }
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
+
+
                 wybierzStarąCzęśćLabel.setEnabled(true);
                 staraCzescComboBox.setEnabled(true);
                 staraCzescComboBox.setSelectedItem("--Wybierz starą część--");
@@ -202,13 +242,53 @@ public class PrzegladGUI<T> {
                     staraCzescComboBox.addItem(czesc);
                 }
 
+
+            }
+        });
+        staraCzescComboBox.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Objects.equals(staraCzescComboBox.getSelectedItem(), "--Wybierz starą część--") ||
+                        staraCzescComboBox.getSelectedItem() == null) {
+                    //staraCzescComboBox.getSelectedItem().equals("--Wybierz starą część--")
+                    return;
+                }
+
+                JComboBox comboBox = (JComboBox) e.getSource();
+                staraCzesc = (Czesc) comboBox.getSelectedItem();
+
+                    System.out.println("Wybrano starą część: " + staraCzesc);
+
+
+            }
+        });
+        nowaCzescComboBox.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Objects.equals(nowaCzescComboBox.getSelectedItem(), "--Wybierz nową część--") ||
+                        nowaCzescComboBox.getSelectedItem() == null) {
+                    return;
+                }
+                JComboBox comboBox = (JComboBox) e.getSource();
+                nowaCzesc = (Czesc) comboBox.getSelectedItem();
+
+                System.out.println("Wybrano nową część: " + nowaCzesc);
+
             }
         });
     }
 
-    public void setDomyslne() {
-        wybierzPojazdComboBox.setSelectedItem("--Wybierz pojazd--");
-
+    public void setDomyslnePoZmianiePojazdu() {
         zatwierdźPrzeglądButton.setEnabled(false);
         opisPrzegladuLabel.setEnabled(false);
         opisPrzegladuTextField.setEnabled(false);
@@ -224,10 +304,12 @@ public class PrzegladGUI<T> {
         wymaganaWymianaCzęściCheckBox.setEnabled(false);
         wymaganaWymianaCzęściCheckBox.setSelected(false);
 
+
         nowaCzescComboBox.setSelectedItem("--Wybierz nową część--");
         nowaCzescComboBox.removeAllItems();
         wybierzNowąCzęśćLabel.setEnabled(false);
         nowaCzescComboBox.setEnabled(false);
+
 
         staraCzescComboBox.setSelectedItem("--Wybierz starą część--");
         staraCzescComboBox.removeAllItems();
@@ -236,6 +318,12 @@ public class PrzegladGUI<T> {
 
         naprawaUdanaCheckBox.setSelected(true);
         naprawaUdanaCheckBox.setEnabled(false);
+    }
+
+    public void seWszystkotDomyslne() {
+        wybierzPojazdComboBox.setSelectedItem("--Wybierz pojazd--");
+        setDomyslnePoZmianiePojazdu();
+
     }
 
 

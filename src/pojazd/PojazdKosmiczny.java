@@ -23,7 +23,7 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
     private List<Przeglad> przeglady = new ArrayList<>();
     private static Set<Przeglad> wszystkiePrzegladyList = new HashSet<>();
     private List<Czesc> czesci = new ArrayList<>();
-    private Set<Czesc> wszystkieCzesciWPojazdach = new HashSet<>();
+    private static Set<Czesc> wszystkieCzesciWPojazdach = new HashSet<>();
 
 
     protected PojazdKosmiczny(String nazwa, int rokProdukcji, int maksymalnyZasiegWParsekach) {
@@ -47,7 +47,7 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
                 SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad_pojazdu.toString(), przeglad);
     }
 
-    public void addCzescDoPojazdu(Czesc czesc) throws Exception {
+    public void dodajCzescDoPojazdu(Czesc czesc) throws Exception {
         if(!czesci.contains(czesc)) {
             if (wszystkieCzesciWPojazdach.contains(czesc)) {
                 throw new Exception("Ten przeglad jest przypisany do innego pojazdu!");
@@ -105,6 +105,10 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
             }
         }
         throw new Exception("Nie znaleziono pojazdu o numerze: "+String.valueOf(nrPojazdu));
+    }
+
+    public static Set<Czesc> getWszystkieCzesciWPojazdach() {
+        return wszystkieCzesciWPojazdach;
     }
 
     public boolean czyWaznyPrzeglad(){

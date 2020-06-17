@@ -27,10 +27,14 @@ public class Main {
 
         Czesc czesc1 = new Czesc("Uszczelka",12);
         Czesc czesc2 = new Czesc("Pompa ciepła",5,1);
+        Czesc czesc3 = new Czesc("Monitor", 17, 2);
+        Czesc czesc4 = new Czesc("Boiler",144);
+        Czesc czesc5 = new Czesc("Uszczelka",18);
+        Czesc czesc6 = new Czesc("Pompa",5,1);
 
         try {
-            sonda1.addCzescDoPojazdu(czesc1);
-            sonda1.addCzescDoPojazdu(czesc2);
+            sonda1.dodajCzescDoPojazdu(czesc1);
+            sonda1.dodajCzescDoPojazdu(czesc2);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,6 +44,12 @@ public class Main {
         for(Czesc czesc: extentCzesc){
             System.out.println("\n"+czesc);
         }
+
+        ArrayList<Czesc> wolneCzesci = Czesc.dajWolneCzesci();
+        for(Czesc czesc : wolneCzesci){
+            System.out.println("Wolna czesc: "+czesc);
+        }
+
 
         JFrame frame = new JFrame("PrzegladGUI");
         frame.setContentPane(new PrzegladGUI(listaPojazdow).panel1);
