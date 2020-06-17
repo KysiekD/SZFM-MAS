@@ -31,8 +31,22 @@ public class Naprawa extends ObjectPlusPlus {
         return naprawa;
     }
 
-    public void wymienCzesc(Czesc staraCzesc, Czesc nowaCzesc){
-        //................
+    public void wymienionoCzesci(Czesc staraCzesc, Czesc nowaCzesc) throws Exception {
+        this.addLink(SZFM_Enum.asocjacjaCzescNaprawa.naprawa_z_wyrzucona_czescia.toString(),
+                SZFM_Enum.asocjacjaCzescNaprawa.czesc_wyrzucona_podczas_naprawy.toString(),staraCzesc);
+        this.addLink(SZFM_Enum.asocjacjaCzescNaprawa.naprawa_z_dodana_czescia.toString(),
+                SZFM_Enum.asocjacjaCzescNaprawa.czesc_dodana_podczas_naprawy.toString(),nowaCzesc);
+
+        System.out.println("\n===Informacje o stworzonych asocjacjach:===");
+        System.out.println("--> Podczas naprawy: "+this+", wymieniono czesci: "+
+                "\n    wyrzucona część: "+staraCzesc+
+                "\n    dodana część:"+nowaCzesc);
+        System.out.println("NAPRAWA-CZĘŚĆ");
+        this.showLinks(SZFM_Enum.asocjacjaCzescNaprawa.naprawa_z_wyrzucona_czescia.toString(), System.out);
+        this.showLinks(SZFM_Enum.asocjacjaCzescNaprawa.naprawa_z_dodana_czescia.toString(), System.out);
+        staraCzesc.showLinks(SZFM_Enum.asocjacjaCzescNaprawa.czesc_wyrzucona_podczas_naprawy.toString(),System.out);
+        nowaCzesc.showLinks(SZFM_Enum.asocjacjaCzescNaprawa.czesc_dodana_podczas_naprawy.toString(),System.out);
+        System.out.println("===Koniec informacji o asocjacjach.===\n");
     }
 
     public Naprawa wyswietlNaprawe(int nrNaprawy){

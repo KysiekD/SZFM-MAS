@@ -131,30 +131,7 @@ public class PrzegladGUI<T> {
                 String przegladInfo;
                 String opisPrzegladu = "-";
                 String opisNaprawy;
-
-                if (pojazdWymagaNaprawyCheckBox.isSelected()) {
-                    wymaganaNaprawa = true;
-
-                    if (wymaganaWymianaCzęściCheckBox.isSelected() == true) {
-                        wymaganaWymianaCzesci = true;
-                        try {
-                            pojazd.odlaczCzescOdPojazdu(staraCzesc);
-                            pojazd.dodajCzescDoPojazdu(nowaCzesc);
-                        } catch (Exception exception) {
-                            exception.printStackTrace();
-                        }
-                    }
-
-                    if (naprawaUdanaCheckBox.isSelected()) {
-                        naprawaUdana = true;
-                        statusNaprawy = SZFM_Enum.statusNaprawy.udana;
-                    } else {
-                        naprawaUdana = false;
-                        statusNaprawy = SZFM_Enum.statusNaprawy.nieudana;
-                    }
-                } else {
-                    statusNaprawy = SZFM_Enum.statusNaprawy.udana;
-                }
+                Naprawa naprawa = null;
 
                 if (!pojazdWymagaNaprawyCheckBox.isSelected() ||
                         naprawaUdanaCheckBox.isSelected()) {
@@ -172,14 +149,31 @@ public class PrzegladGUI<T> {
                     opisPrzegladu = opisPrzegladuTextField.getText();
                     przeglad.setOpisPrzegladu(opisPrzegladu);
                     nrPrzegladu = przeglad.getNrPrzegladu();
-
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
-                if (wymaganaNaprawa) {
+                przegladInfo = "\nZatwierdzono przegląd nr: " + String.valueOf(nrPrzegladu) +
+                        " dla pojazdu " + pojazd.toString() + "" +
+                        "\nSzczegóły przeglądu: " + przeglad.toString() +
+                        "\nWymóg naprawy: " + wymaganaNaprawa +
+                        "\nOpis przeglądu: " + opisPrzegladu;
+
+
+                if (pojazdWymagaNaprawyCheckBox.isSelected()) {
+                    wymaganaNaprawa = true;
+
+                    if (naprawaUdanaCheckBox.isSelected()) {
+                        naprawaUdana = true;
+                        statusNaprawy = SZFM_Enum.statusNaprawy.udana;
+                    } else {
+                        naprawaUdana = false;
+                        statusNaprawy = SZFM_Enum.statusNaprawy.nieudana;
+                    }
+
                     try {
 
-                        Naprawa naprawa = Naprawa.rozpocznijNowaNaprawe(przeglad, statusNaprawy);
+
+                        naprawa = Naprawa.rozpocznijNowaNaprawe(przeglad, statusNaprawy);
                         opisNaprawy = opisNaprawyTextField.getText();
                         naprawa.setOpisNaprawy(opisNaprawy);
 
@@ -192,12 +186,26 @@ public class PrzegladGUI<T> {
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
+                    if (wymaganaWymianaCzęściCheckBox.isSelected() == true) {
+                        wymaganaWymianaCzesci = true;
+                        try {
+                            pojazd.odlaczCzescOdPojazdu(staraCzesc);
+                            pojazd.dodajCzescDoPojazdu(nowaCzesc);
+                            naprawa.wymienionoCzesci(staraCzesc, nowaCzesc);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+
+
+                } else {
+                    statusNaprawy = SZFM_Enum.statusNaprawy.udana;
                 }
-                przegladInfo = "\nZatwierdzono przegląd nr: " + String.valueOf(nrPrzegladu) +
-                        " dla pojazdu " + pojazd.toString() + "" +
-                        "\nSzczegóły przeglądu: " + przeglad.toString() +
-                        "\nWymóg naprawy: " + wymaganaNaprawa +
-                        "\nOpis przeglądu: " + opisPrzegladu;
+
+
+
+
+
                 System.out.println(przegladInfo);
                 System.out.println("\n" + naprawaInfo);
 

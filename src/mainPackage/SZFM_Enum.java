@@ -30,7 +30,8 @@ public class SZFM_Enum {
     }
 
     public enum asocjacjaCzescNaprawa{
-        czesc_wymieniona_podczas_naprawy, naprawa_z_wymieniona_czescia
+        czesc_wyrzucona_podczas_naprawy, naprawa_z_wyrzucona_czescia,
+        czesc_dodana_podczas_naprawy, naprawa_z_dodana_czescia
     }
 
 }
