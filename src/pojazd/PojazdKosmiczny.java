@@ -59,10 +59,27 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         wszystkieCzesciWPojazdach.add(czesc);
 
         System.out.println("\n===Informacje o stworzonych asocjacjach:===");
+        System.out.println("--> Dodano część: "+czesc+", do pojazdu: "+this);
+        System.out.println("POJAZD-CZĘŚĆ");
         this.showLinks(SZFM_Enum.asocjacjaPojazdCzesc.pojazd_z_czescia.toString(), System.out);
         czesc.showLinks(SZFM_Enum.asocjacjaPojazdCzesc.czesc_w_pojezdzie.toString(), System.out);
-        System.out.println("\n===Koniec informacji o asocjacjach.===");
+        System.out.println("===Koniec informacji o asocjacjach.===\n");
 
+    }
+
+    public void odlaczCzescOdPojazdu(Czesc czesc) throws Exception {
+        if(!czesci.contains(czesc)){
+            throw new Exception("Tej części nie ma w tym pojeździe!");
+        }
+        this.removeLink(SZFM_Enum.asocjacjaPojazdCzesc.pojazd_z_czescia.toString(),
+                SZFM_Enum.asocjacjaPojazdCzesc.czesc_w_pojezdzie.toString(),czesc);
+
+        System.out.println("\n===Informacje o stworzonych asocjacjach:===");
+        System.out.println("--> Usunieto czesc: "+czesc+", z pojazdu: "+this);
+        System.out.println("POJAZD-CZĘŚĆ");
+        this.showLinks(SZFM_Enum.asocjacjaPojazdCzesc.pojazd_z_czescia.toString(), System.out);
+        czesc.showLinks(SZFM_Enum.asocjacjaPojazdCzesc.czesc_w_pojezdzie.toString(), System.out);
+        System.out.println("===Koniec informacji o asocjacjach.===\n");
     }
 
 

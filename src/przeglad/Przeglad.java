@@ -36,11 +36,12 @@ public class Przeglad extends ObjectPlusPlus {
         Przeglad przeglad = new Przeglad(Calendar.getInstance().getTime(), statusPrzegladu);
             pojazd.addPrzeglad(przeglad);
         System.out.println("\n===Informacje o stworzonych asocjacjach:===");
-
+        System.out.println("--> Dodano przegląd: "+przeglad+", do pojazdu: "+pojazd);
+        System.out.println("POJAZD-PRZEGLĄD");
         przeglad.showLinks(SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad_pojazdu.toString(), System.out);
         pojazd.showLinks(SZFM_Enum.asocjacjaPojazdPrzeglad.pojazd_w_przegladzie.toString(), System.out);
 
-        System.out.println("\n===Koniec informacji o asocjacjach.===");
+        System.out.println("===Koniec informacji o asocjacjach.===\n");
 
 
         return przeglad;

@@ -22,7 +22,7 @@ public class Main {
 
         ArrayList<PojazdKosmiczny> listaPojazdow = PojazdKosmiczny.dajListaPojazdow();
         for(PojazdKosmiczny pojazd: listaPojazdow){
-           System.out.println("\n"+pojazd.toString());
+           System.out.println("Załadowano pojazd: "+pojazd.toString());
         }
 
         Czesc czesc1 = new Czesc("Uszczelka",12);
@@ -40,14 +40,14 @@ public class Main {
         }
 
 
-        Iterable<Czesc> extentCzesc = Czesc.getExtent(Czesc.class);
+        /*Iterable<Czesc> extentCzesc = Czesc.getExtent(Czesc.class);
         for(Czesc czesc: extentCzesc){
             System.out.println("\n"+czesc);
-        }
+        }*/
 
         ArrayList<Czesc> wolneCzesci = Czesc.dajWolneCzesci();
         for(Czesc czesc : wolneCzesci){
-            System.out.println("Wolna czesc: "+czesc);
+            System.out.println("Załadowano wolną część: "+czesc);
         }
 
 
@@ -56,6 +56,6 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-
+        System.out.println("__S__Y__S__T__E__M____Z__A__Ł__A__D__O__W__A__N__Y");
     }
 }

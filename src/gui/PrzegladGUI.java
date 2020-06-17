@@ -42,10 +42,10 @@ public class PrzegladGUI<T> {
     private Czesc staraCzesc;
     private Czesc nowaCzesc;
 
-    public int dajNrZWybranegoElementuComboBox(ActionEvent k) {
+/*    public int dajNrZWybranegoElementuComboBox(ActionEvent k) {
         JComboBox comboBox = (JComboBox) k.getSource();
         String infoElementu = (String) comboBox.getSelectedItem();
-        System.out.println("\nWybrano: " + infoElementu);
+        System.out.println("\n* * * Wybrano: " + infoElementu);
         //Pattern pattern = Pattern.compile("\\d{4}");
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(infoElementu);
@@ -54,7 +54,7 @@ public class PrzegladGUI<T> {
         System.out.println("Numer wybranego elementu: " + matcher.group(0));
         int nrElementu = Integer.parseInt(matcher.group(0));
         return nrElementu;
-    }
+    }*/
 
     public PrzegladGUI(Iterable<T> listaPojazdow) {
         for (T pojazd : listaPojazdow) {
@@ -93,7 +93,7 @@ public class PrzegladGUI<T> {
 
                 JComboBox comboBox = (JComboBox) e.getSource();
                 pojazd = (PojazdKosmiczny) comboBox.getSelectedItem();
-                System.out.println("Wybrano pojazd: " + pojazd);
+                System.out.println("\n* * * Wybrano pojazd: " + pojazd);
 
                 try {
                     //pojazd = PojazdKosmiczny.dajPojazd(nrPojazdu);
@@ -118,11 +118,13 @@ public class PrzegladGUI<T> {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("\n#####__Z-A-T-W-I-E-R-D-Z-O-N-O____P-R-Z-E-G-L-Ą-D__#####\n");
                 int nrPrzegladu = 0;
                 Przeglad przeglad = null;
                 Boolean wymaganaNaprawa = false;
                 Boolean przegladUdany = false;
                 Boolean naprawaUdana = false;
+                Boolean wymaganaWymianaCzesci = false;
                 SZFM_Enum.statusPrzegladu statusPrzegladu;
                 SZFM_Enum.statusNaprawy statusNaprawy;
                 String naprawaInfo = "Brak zatwierdzonych napraw.";
@@ -132,6 +134,17 @@ public class PrzegladGUI<T> {
 
                 if (pojazdWymagaNaprawyCheckBox.isSelected()) {
                     wymaganaNaprawa = true;
+
+                    if (wymaganaWymianaCzęściCheckBox.isSelected() == true) {
+                        wymaganaWymianaCzesci = true;
+                        try {
+                            pojazd.odlaczCzescOdPojazdu(staraCzesc);
+                            pojazd.dodajCzescDoPojazdu(nowaCzesc);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+
                     if (naprawaUdanaCheckBox.isSelected()) {
                         naprawaUdana = true;
                         statusNaprawy = SZFM_Enum.statusNaprawy.udana;
@@ -262,7 +275,7 @@ public class PrzegladGUI<T> {
                 JComboBox comboBox = (JComboBox) e.getSource();
                 staraCzesc = (Czesc) comboBox.getSelectedItem();
 
-                    System.out.println("Wybrano starą część: " + staraCzesc);
+                System.out.println("\n* * * Wybrano starą część: " + staraCzesc);
 
 
             }
@@ -282,7 +295,7 @@ public class PrzegladGUI<T> {
                 JComboBox comboBox = (JComboBox) e.getSource();
                 nowaCzesc = (Czesc) comboBox.getSelectedItem();
 
-                System.out.println("Wybrano nową część: " + nowaCzesc);
+                System.out.println("\n* * * Wybrano nową część: " + nowaCzesc);
 
             }
         });

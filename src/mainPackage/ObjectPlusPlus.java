@@ -79,7 +79,7 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
         }
         objectLinks = links.get(roleName);
         Collection col = objectLinks.values();
-        stream.println("Klasa "+this.getClass().getSimpleName()+": "+this.toString()+", powiązania:  '"+roleName+"':");
+        stream.println("===Klasa "+this.getClass().getSimpleName()+": "+this.toString()+", powiązania:  '"+roleName+"':");
 
         for(Object obj:col) {
             stream.println("       "+obj);

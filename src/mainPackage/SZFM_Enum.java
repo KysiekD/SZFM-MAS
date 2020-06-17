@@ -29,4 +29,8 @@ public class SZFM_Enum {
         czesc_w_pojezdzie,pojazd_z_czescia
     }
 
+    public enum asocjacjaCzescNaprawa{
+        czesc_wymieniona_podczas_naprawy, naprawa_z_wymieniona_czescia
+    }
+
 }

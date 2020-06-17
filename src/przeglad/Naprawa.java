@@ -23,9 +23,11 @@ public class Naprawa extends ObjectPlusPlus {
         Naprawa naprawa = new Naprawa(statusNaprawy);
         przeglad.addNaprawa(naprawa);
         System.out.println("\n===Informacje o stworzonych asocjacjach:===");
+        System.out.println("--> Dodano naprawę: "+naprawa+", do przeglądu: "+przeglad);
+        System.out.println("PRZEGLĄD-NAPRAWA");
         przeglad.showLinks(SZFM_Enum.asocjacjaPrzegladNaprawa.przeglad_z_naprawami.toString(), System.out);
         naprawa.showLinks(SZFM_Enum.asocjacjaPrzegladNaprawa.naprawa_podczas_przegladu.toString(), System.out);
-        System.out.println("\n===Koniec informacji o asocjacjach.===");
+        System.out.println("===Koniec informacji o asocjacjach.===\n");
         return naprawa;
     }
 
@@ -40,10 +42,9 @@ public class Naprawa extends ObjectPlusPlus {
 
     @Override
     public String toString() {
-        return "Naprawa{" +
-                "nrNaprawy=" + nrNaprawy +
-                ", statusNaprawy=" + statusNaprawy +
-                '}';
+        return "Naprawa: " +
+                "nr: " + nrNaprawy +
+                ", status: " + statusNaprawy;
     }
 
     public int getNrNaprawy() {
