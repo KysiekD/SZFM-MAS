@@ -37,6 +37,8 @@ public class Main {
                 misja1, kosmonauta1);
 
         Placowka placowka1 = new Placowka("Port Lotniczy im. M. Kopernika", SZFM_Enum.kraj.Polska);
+        placowka1.powiazPlacowkeZMisja(misja1);
+
 
         SondaKosmiczna sonda1 = new SondaKosmiczna("Sputnik",1992,19,
                 SZFM_Enum.rodzajNapedu.spalinowy);
@@ -44,6 +46,7 @@ public class Main {
                 200,SZFM_Enum.rodzajNapedu.jonowy);
         PromKosmiczny prom1 = new PromKosmiczny("Columbia",1967,33,3,20,15);
 
+        prom1.powiazPojazdZMisja(misja1);
 
         ArrayList<PojazdKosmiczny> listaPojazdow = PojazdKosmiczny.dajListaPojazdow();
         for(PojazdKosmiczny pojazd: listaPojazdow){

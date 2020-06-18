@@ -32,6 +32,12 @@ public class Placowka extends ObjectPlusPlus {
 
     }
 
+    public void powiazPlacowkeZMisja(MisjaKosmiczna misja){
+        this.addLink(SZFM_Enum.asocjacjaMisjaPlacowka.placowka_organizujaca_misje.toString(),
+                SZFM_Enum.asocjacjaMisjaPlacowka.misja_organizaowana_przez_placowke.toString(),
+                misja);
+    }
+
     @Override
     public String toString() {
         return "Placowka: " +

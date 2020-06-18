@@ -38,6 +38,14 @@ public class SZFM_Enum {
         w_przygotowaniu, w_drodze_do_celu, w_drodze_powrotnej, zakonczona_sukcesem, zakonczona_niepowodzeniem
     }
 
+    public enum asocjacjaMisjaPlacowka{
+        misja_organizaowana_przez_placowke, placowka_organizujaca_misje
+    }
+
+    public enum asocjacjaMisjaPojazd{
+        pojazd_bierze_udzial_w_misji, misja_ma_przypisany_pojazd
+    }
+
     public enum asocjacjaMisjaUdzialPracownik{
         misja_z_pracownikiem, pracownik_w_misji, udzial_pracownika, udzial_w_misji
     }

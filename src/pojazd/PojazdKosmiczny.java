@@ -4,6 +4,7 @@ import mainPackage.ObjectPlus;
 import mainPackage.ObjectPlusPlus;
 import mainPackage.SZFM_Enum;
 import ogolne.MisjaKosmiczna;
+import ogolne.Placowka;
 import przeglad.Czesc;
 import przeglad.Przeglad;
 
@@ -124,6 +125,13 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         }
         throw new Exception("Nie znaleziono pojazdu o numerze: "+String.valueOf(nrPojazdu));
     }
+
+    public void powiazPojazdZMisja(MisjaKosmiczna misja){
+        this.addLink(SZFM_Enum.asocjacjaMisjaPojazd.pojazd_bierze_udzial_w_misji.toString(),
+                SZFM_Enum.asocjacjaMisjaPojazd.misja_ma_przypisany_pojazd.toString(), misja);
+    }
+
+
 
     public static Set<Czesc> getWszystkieCzesciWPojazdach() {
         return wszystkieCzesciWPojazdach;

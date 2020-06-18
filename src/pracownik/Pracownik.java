@@ -133,6 +133,7 @@ public class Pracownik extends ObjectPlusPlus {
         Naukowiec naukowiec = new Naukowiec(imie,nazwisko, imieOjca, specjalizacjaNaukowa,tytulNaukowy );
         this.addPart(SZFM_Enum.asocjacjaKompozycjaPracownik.pracownik.toString(),
                 SZFM_Enum.asocjacjaKompozycjaPracownik.posiada_naukowca.toString(), naukowiec);
+
     }
 
     private void addKosmonauta(String imie, String nazwisko, String imieOjca,

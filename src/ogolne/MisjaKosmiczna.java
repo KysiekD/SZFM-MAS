@@ -14,6 +14,12 @@ public class MisjaKosmiczna extends ObjectPlusPlus {
     private SZFM_Enum.statusMisji statusMisji;
     private static int najwyzszyNrMisji = 50;
 
+    /**
+     *
+     * @param nazwaMisji
+     * @param odlegloscDoCeluWParsekach
+     * @param lotZalogowy
+     */
     public MisjaKosmiczna(String nazwaMisji, int odlegloscDoCeluWParsekach, boolean lotZalogowy) {
         super();
         najwyzszyNrMisji = najwyzszyNrMisji +1;
