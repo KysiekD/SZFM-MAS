@@ -20,6 +20,7 @@ public class Przeglad extends ObjectPlusPlus {
 
 
     private Przeglad(Date dataPrzegladu, SZFM_Enum.statusPrzegladu statusPrzegladu) {
+        super();
         najwyzszyNrPrzegladu = najwyzszyNrPrzegladu+1;
         this.nrPrzegladu = najwyzszyNrPrzegladu;
         this.dataPrzegladu = dataPrzegladu;

@@ -1,7 +1,9 @@
 package gui;
 
 import mainPackage.SZFM_Enum;
+import ogolne.Placowka;
 import pojazd.PojazdKosmiczny;
+import pracownik.Inzynier;
 import przeglad.Czesc;
 import przeglad.Naprawa;
 import przeglad.Przeglad;
@@ -41,25 +43,15 @@ public class PrzegladGUI<T> {
     //private ActionListener zatwierdzeniePrzegladuListener;
     private Czesc staraCzesc;
     private Czesc nowaCzesc;
+    private Placowka placowka;
+    private Inzynier inzynier;
 
-/*    public int dajNrZWybranegoElementuComboBox(ActionEvent k) {
-        JComboBox comboBox = (JComboBox) k.getSource();
-        String infoElementu = (String) comboBox.getSelectedItem();
-        System.out.println("\n* * * Wybrano: " + infoElementu);
-        //Pattern pattern = Pattern.compile("\\d{4}");
-        Pattern pattern = Pattern.compile("\\d+");
-        Matcher matcher = pattern.matcher(infoElementu);
-        Boolean matches = matcher.matches();
-        matcher.find();
-        System.out.println("Numer wybranego elementu: " + matcher.group(0));
-        int nrElementu = Integer.parseInt(matcher.group(0));
-        return nrElementu;
-    }*/
 
-    public PrzegladGUI(Iterable<T> listaPojazdow) {
+    public PrzegladGUI(Iterable<T> listaPojazdow, Placowka placowka, Inzynier inzynier) {
+        this.placowka = placowka;
+        this.inzynier = inzynier;
         for (T pojazd : listaPojazdow) {
 
-            //wybierzPojazdComboBox.addItem(pojazd.toString());
             wybierzPojazdComboBox.addItem(pojazd);
         }
         seWszystkotDomyslne();
@@ -78,18 +70,7 @@ public class PrzegladGUI<T> {
                     return;
                 }
                 setDomyslnePoZmianiePojazdu();
-                /*JComboBox comboBox = (JComboBox) e.getSource();
-                String pojazdInfo = (String) comboBox.getSelectedItem();
-                System.out.println("\nWybrano: " + pojazdInfo);
-                //Pattern pattern = Pattern.compile("\\d{4}");
-                Pattern pattern = Pattern.compile("\\d+");
-                Matcher matcher = pattern.matcher(pojazdInfo);
-                Boolean matches = matcher.matches();
-                matcher.find();
-                System.out.println("Numer wybranego pojazdu: " + matcher.group(0));
-                int nrPojazdu = Integer.parseInt(matcher.group(0));*/
 
-                //int nrPojazdu = dajNrZWybranegoElementuComboBox(e);
 
                 JComboBox comboBox = (JComboBox) e.getSource();
                 pojazd = (PojazdKosmiczny) comboBox.getSelectedItem();
@@ -149,11 +130,16 @@ public class PrzegladGUI<T> {
                     opisPrzegladu = opisPrzegladuTextField.getText();
                     przeglad.setOpisPrzegladu(opisPrzegladu);
                     nrPrzegladu = przeglad.getNrPrzegladu();
+                    placowka.powiazPlacowkeZPrzegladem(przeglad);
+                    inzynier.powiazInzynieraZPrzegladem(przeglad);
+
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
                 przegladInfo = "\nZatwierdzono przegląd nr: " + String.valueOf(nrPrzegladu) +
                         " dla pojazdu " + pojazd.toString() + "" +
+                        "\nPrzegląd odbył się w placówce: " + placowka +
+                        "\nZa przeglad odpowiadał: " + inzynier +
                         "\nSzczegóły przeglądu: " + przeglad.toString() +
                         "\nWymóg naprawy: " + wymaganaNaprawa +
                         "\nOpis przeglądu: " + opisPrzegladu;
@@ -183,6 +169,7 @@ public class PrzegladGUI<T> {
                                 ", status naprawy: " + naprawa.getStatusNaprawy() +
                                 "\nOpis naprawy: " + opisNaprawy;
 
+
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
@@ -201,9 +188,6 @@ public class PrzegladGUI<T> {
                 } else {
                     statusNaprawy = SZFM_Enum.statusNaprawy.udana;
                 }
-
-
-
 
 
                 System.out.println(przegladInfo);

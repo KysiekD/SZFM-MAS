@@ -10,6 +10,7 @@ public class Naprawa extends ObjectPlusPlus {
     private static int najwyzszyNrNaprawy = 87722;
 
     private Naprawa(SZFM_Enum.statusNaprawy statusNaprawy) {
+        super();
         najwyzszyNrNaprawy = najwyzszyNrNaprawy +1;
         this.nrNaprawy = najwyzszyNrNaprawy;
         this.statusNaprawy = statusNaprawy;

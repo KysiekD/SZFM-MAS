@@ -16,6 +16,7 @@ public class Czesc extends ObjectPlusPlus {
     private static int najwyzszyNrCzesci = 666771;
 
     public Czesc(String nazwa, double waga, double wagaElektroniki) {
+        super();
         najwyzszyNrCzesci = najwyzszyNrCzesci +1;
         this.nrCzesci = najwyzszyNrCzesci;
         this.nazwa = nazwa;

@@ -27,6 +27,7 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
 
 
     protected PojazdKosmiczny(String nazwa, int rokProdukcji, int maksymalnyZasiegWParsekach) {
+        super();
         this.nazwa = nazwa;
         najwyzszyNrPojazdu = najwyzszyNrPojazdu+1;
         this.nrPojazdu = najwyzszyNrPojazdu;
