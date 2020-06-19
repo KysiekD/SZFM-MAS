@@ -211,12 +211,24 @@ public class PrzegladGUI<T> {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!pojazdWymagaNaprawyCheckBox.isSelected()) {
+                    wyzerujStareNoweCzesci();
+                    wymaganaWymianaCzęściCheckBox.setEnabled(false);
+                    wymaganaWymianaCzęściCheckBox.setSelected(false);
+                    opisNaprawyLabel.setEnabled(false);
+                    opisNaprawyTextField.setEnabled(false);
+                    naprawaUdanaCheckBox.setEnabled(false);
+
+                    return;
+                }
+
                 wymaganaWymianaCzęściCheckBox.setEnabled(true);
                 opisNaprawyLabel.setEnabled(true);
                 opisNaprawyTextField.setEnabled(true);
                 naprawaUdanaCheckBox.setEnabled(true);
             }
         });
+
 
         wymaganaWymianaCzęściCheckBox.addActionListener(new ActionListener() {
             /**
@@ -226,6 +238,15 @@ public class PrzegladGUI<T> {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!validacjaDanych()) {
+                    zatwierdźPrzeglądButton.setEnabled(false);
+                }
+
+                if (!wymaganaWymianaCzęściCheckBox.isSelected()) {
+                    wyzerujStareNoweCzesci();
+                    return;
+                }
+
                 wybierzNowąCzęśćLabel.setEnabled(true);
                 nowaCzescComboBox.setEnabled(true);
                 nowaCzescComboBox.setSelectedItem("--Wybierz nową część--");
@@ -258,6 +279,8 @@ public class PrzegladGUI<T> {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
                 if (Objects.equals(staraCzescComboBox.getSelectedItem(), "--Wybierz starą część--") ||
                         staraCzescComboBox.getSelectedItem() == null) {
                     //staraCzescComboBox.getSelectedItem().equals("--Wybierz starą część--")
@@ -269,6 +292,12 @@ public class PrzegladGUI<T> {
 
                 System.out.println("\n* * * Wybrano starą część: " + staraCzesc);
 
+                System.out.println(validacjaDanych());
+                if (!validacjaDanych()) {
+                    zatwierdźPrzeglądButton.setEnabled(false);
+                } else {
+                    zatwierdźPrzeglądButton.setEnabled(true);
+                }
 
             }
         });
@@ -280,6 +309,8 @@ public class PrzegladGUI<T> {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
                 if (Objects.equals(nowaCzescComboBox.getSelectedItem(), "--Wybierz nową część--") ||
                         nowaCzescComboBox.getSelectedItem() == null) {
                     return;
@@ -289,11 +320,41 @@ public class PrzegladGUI<T> {
 
                 System.out.println("\n* * * Wybrano nową część: " + nowaCzesc);
 
+                System.out.println(validacjaDanych());
+                if (!validacjaDanych()) {
+                    zatwierdźPrzeglądButton.setEnabled(false);
+                } else {
+                    zatwierdźPrzeglądButton.setEnabled(true);
+                }
+
             }
         });
     }
 
+    public boolean validacjaDanych() {
+        if (pojazd == null) {
+
+            return false;
+        }
+        if (wymaganaWymianaCzęściCheckBox.isSelected() && (staraCzesc == null || nowaCzesc == null)) {
+            return false;
+        }
+        return true;
+    }
+
+    public void wyzerujStareNoweCzesci() {
+        wybierzNowąCzęśćLabel.setEnabled(false);
+        wybierzStarąCzęśćLabel.setEnabled(false);
+        nowaCzescComboBox.setEnabled(false);
+        nowaCzescComboBox.removeAllItems();
+        staraCzescComboBox.setEnabled(false);
+        staraCzescComboBox.removeAllItems();
+        staraCzesc = null;
+        nowaCzesc = null;
+    }
+
     public void setDomyslnePoZmianiePojazdu() {
+        pojazd = null;
         zatwierdźPrzeglądButton.setEnabled(false);
         opisPrzegladuLabel.setEnabled(false);
         opisPrzegladuTextField.setEnabled(false);
@@ -314,12 +375,14 @@ public class PrzegladGUI<T> {
         nowaCzescComboBox.removeAllItems();
         wybierzNowąCzęśćLabel.setEnabled(false);
         nowaCzescComboBox.setEnabled(false);
+        nowaCzesc = null;
 
 
         staraCzescComboBox.setSelectedItem("--Wybierz starą część--");
         staraCzescComboBox.removeAllItems();
         wybierzStarąCzęśćLabel.setEnabled(false);
         staraCzescComboBox.setEnabled(false);
+        staraCzesc = null;
 
         naprawaUdanaCheckBox.setSelected(true);
         naprawaUdanaCheckBox.setEnabled(false);
