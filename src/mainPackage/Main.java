@@ -1,5 +1,7 @@
 package mainPackage;
 
+import java.io.*;
+
 import gui.PrzegladGUI;
 import ogolne.MisjaKosmiczna;
 import ogolne.Placowka;
@@ -11,6 +13,7 @@ import pracownik.Pracownik;
 import przeglad.Czesc;
 
 import javax.swing.*;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -18,10 +21,47 @@ import java.util.Date;
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException {
-
         Pracownik naukowiecInzynier1 = null;
         Pracownik kosmonauta1 = null;
+        MisjaKosmiczna misja1 = null;
+        UdzialWMisji udzialWMisji1;
+        Placowka placowka1 = null;
+        SondaKosmiczna sonda1;
+        SondaKosmiczna sonda2;
+        PromKosmiczny prom1;
+        Czesc czesc1;
+        Czesc czesc2;
+        Czesc czesc3;
+        Czesc czesc4;
+        Czesc czesc5;
+        Czesc czesc6;
+
+
+        // READ EXTENSION:
+
+         try {
+             String pathRead = "C:\\Users\\Wygrany\\Desktop\\Extent.txt";
+            ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(pathRead));
+            ObjectPlus.readExtents(inStream);
+         } catch(ClassNotFoundException | IOException e) {
+          e.printStackTrace();
+         }
+
+
+        ArrayList<PojazdKosmiczny> listaPojazdow = PojazdKosmiczny.dajListaPojazdow();
         try {
+            misja1 = MisjaKosmiczna.znajdzMisje(51);
+            placowka1 = Placowka.znajdzPlacowke(101);
+            placowka1.powiazPlacowkeZMisja(misja1);
+            naukowiecInzynier1 = Pracownik.znajdzPracownika(101);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //=======================
+        //=======================
+        //=======================
+       /* try {
             naukowiecInzynier1 = new Pracownik("Mirosław","Hermaszewski","Roman",2441114,
                     SZFM_Enum.tytulNaukowy.doktor, SZFM_Enum.specjalizacjaNaukowa.fizyka);
             kosmonauta1 = new Pracownik("Anatolij","Milenkov","Józef",
@@ -31,20 +71,20 @@ public class Main {
             e.printStackTrace();
         }
 
-        MisjaKosmiczna misja1 = new MisjaKosmiczna("Juno1",12,true);
+        misja1 = new MisjaKosmiczna("Juno1",12,true);
 
-        UdzialWMisji udzialWMisji1 = new UdzialWMisji(new Date(332235533232L),new Date(339235533232L),"Starszy Pilot",
+        udzialWMisji1 = new UdzialWMisji(new Date(332235533232L),new Date(339235533232L),"Starszy Pilot",
                 misja1, kosmonauta1);
 
-        Placowka placowka1 = new Placowka("Port Lotniczy im. M. Kopernika", SZFM_Enum.kraj.Polska);
+        placowka1 = new Placowka("Port Lotniczy im. M. Kopernika", SZFM_Enum.kraj.Polska);
         placowka1.powiazPlacowkeZMisja(misja1);
 
 
-        SondaKosmiczna sonda1 = new SondaKosmiczna("Sputnik",1992,19,
+        sonda1 = new SondaKosmiczna("Sputnik",1992,19,
                 SZFM_Enum.rodzajNapedu.spalinowy);
-        SondaKosmiczna sonda2 = new SondaKosmiczna("Voyager1",1991,
+        sonda2 = new SondaKosmiczna("Voyager1",1991,
                 200,SZFM_Enum.rodzajNapedu.jonowy);
-        PromKosmiczny prom1 = new PromKosmiczny("Columbia",1967,33,3,20,15);
+        prom1 = new PromKosmiczny("Columbia",1967,33,3,20,15);
 
         prom1.powiazPojazdZMisja(misja1);
 
@@ -53,12 +93,12 @@ public class Main {
            System.out.println("Załadowano pojazd: "+pojazd.toString());
         }
 
-        Czesc czesc1 = new Czesc("Uszczelka",12);
-        Czesc czesc2 = new Czesc("Pompa ciepła",5,1);
-        Czesc czesc3 = new Czesc("Monitor", 17, 2);
-        Czesc czesc4 = new Czesc("Boiler",144);
-        Czesc czesc5 = new Czesc("Uszczelka",18);
-        Czesc czesc6 = new Czesc("Pompa",5,1);
+        czesc1 = new Czesc("Uszczelka",12);
+        czesc2 = new Czesc("Pompa ciepła",5,1);
+        czesc3 = new Czesc("Monitor", 17, 2);
+        czesc4 = new Czesc("Boiler",144);
+        czesc5 = new Czesc("Uszczelka",18);
+        czesc6 = new Czesc("Pompa",5,1);
 
         try {
             sonda1.dodajCzescDoPojazdu(czesc1);
@@ -68,15 +108,17 @@ public class Main {
         }
 
 
-        /*Iterable<Czesc> extentCzesc = Czesc.getExtent(Czesc.class);
+        Iterable<Czesc> extentCzesc = Czesc.getExtent(Czesc.class);
         for(Czesc czesc: extentCzesc){
             System.out.println("\n"+czesc);
-        }*/
+        }
 
         ArrayList<Czesc> wolneCzesci = Czesc.dajWolneCzesci();
         for(Czesc czesc : wolneCzesci){
             System.out.println("Załadowano wolną część: "+czesc);
-        }
+        }*/
+
+
 
 
         JFrame frame = new JFrame("PrzegladGUI");
@@ -85,9 +127,22 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         System.out.println("__S__Y__S__T__E__M____Z__A__Ł__A__D__O__W__A__N__Y");
+
+        // WRITE EXTENSION:
+       /* String path = "C:\\Users\\Wygrany\\Desktop\\Extent.txt";
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path));
+            ObjectPlus.writeExtents(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
     }
 }

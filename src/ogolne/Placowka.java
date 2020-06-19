@@ -38,6 +38,18 @@ public class Placowka extends ObjectPlusPlus {
                 misja);
     }
 
+
+    public static Placowka znajdzPlacowke(int nrPlacowki) throws Exception {
+        Placowka znalezionaPlacowka = null;
+        for(Placowka placowka: Placowka.getExtent(Placowka.class)){
+            if(placowka.getNrPlacowki() == nrPlacowki){
+                znalezionaPlacowka = placowka;
+                return  znalezionaPlacowka;
+            }
+        }
+        throw  new Exception("Nie znaleziono placówki o numerze "+nrPlacowki);
+    }
+
     @Override
     public String toString() {
         return "Placowka: " +

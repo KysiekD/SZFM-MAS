@@ -3,6 +3,7 @@ package pracownik;
 import mainPackage.ObjectPlusPlus;
 import mainPackage.SZFM_Enum;
 import ogolne.MisjaKosmiczna;
+import ogolne.Placowka;
 
 import java.util.ArrayList;
 
@@ -127,6 +128,7 @@ public class Pracownik extends ObjectPlusPlus {
         this.addKosmonauta(imie,nazwisko,imieOjca, wynikTestow);
     }
 
+
     private void addNaukowiec(String imie, String nazwisko, String imieOjca,
                               SZFM_Enum.specjalizacjaNaukowa specjalizacjaNaukowa,
                          SZFM_Enum.tytulNaukowy tytulNaukowy) throws Exception {
@@ -152,6 +154,18 @@ public class Pracownik extends ObjectPlusPlus {
                 SZFM_Enum.asocjacjaKompozycjaPracownik.posiada_inzyniera.toString(),
                 this.inzynier);
     }
+
+    public static Pracownik znajdzPracownika(int nrPracownika) throws Exception {
+
+            Pracownik znalezionyPracowniik = null;
+            for(Pracownik placowka: Pracownik.getExtent(Pracownik.class)){
+                if(placowka.getNrPracownika() == nrPracownika){
+                    znalezionyPracowniik = placowka;
+                    return  znalezionyPracowniik;
+                }
+            }
+            throw  new Exception("Nie znaleziono pracownika o numerze "+nrPracownika);
+        }
 
     @Override
     public String toString() {
@@ -186,5 +200,7 @@ public class Pracownik extends ObjectPlusPlus {
     }
 
 
-
+    public int getNrPracownika() {
+        return nrPracownika;
+    }
 }

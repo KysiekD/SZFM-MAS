@@ -29,6 +29,18 @@ public class MisjaKosmiczna extends ObjectPlusPlus {
         this.lotZalogowy = lotZalogowy;
     }
 
+    public static MisjaKosmiczna znajdzMisje(int nrMisji) throws Exception {
+        MisjaKosmiczna znalezionaMisja = null;
+        for(MisjaKosmiczna misja: MisjaKosmiczna.getExtent(MisjaKosmiczna.class)){
+            if(misja.getNrMisji() == nrMisji){
+                znalezionaMisja = misja;
+                return  znalezionaMisja;
+            }
+        }
+        throw  new Exception("Nie znaleziono misji o numerze "+nrMisji);
+
+    }
+
     public int wyliczCzasTrwania(){
         //..
         return 0;
@@ -42,5 +54,7 @@ public class MisjaKosmiczna extends ObjectPlusPlus {
         return null;
     }
 
-
+    public int getNrMisji() {
+        return nrMisji;
+    }
 }
