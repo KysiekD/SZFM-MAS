@@ -41,8 +41,17 @@ public class Main {
         Czesc czesc4;
         Czesc czesc5;
         Czesc czesc6;
+        Czesc czesc7;
+        Czesc czesc8;
+        Czesc czesc9;
+        Czesc czesc10;
+        Czesc czesc11;
+        Czesc czesc12;
         Boolean czyLadujemySystem = true;
 
+        //=======================
+        //=======================
+        //=======================
         // READ EXTENSION:
         if(czyLadujemySystem) {
             try {
@@ -122,10 +131,22 @@ public class Main {
             czesc4 = new Czesc("Boiler", 144);
             czesc5 = new Czesc("Uszczelka", 18);
             czesc6 = new Czesc("Pompa", 5, 1);
+            czesc7 = new Czesc("Kompresor",76,3);
+            czesc8 = new Czesc("Wał napędowy",15);
+            czesc9 = new Czesc("Lustra poziomowe",55);
+            czesc10 = new Czesc("Modulator", 234);
+            czesc11 = new Czesc("Assymilator", 22);
+            czesc12 = new Czesc("Kokon kosmiczny",222,23);
+
 
             try {
                 sonda1.dodajCzescDoPojazdu(czesc1);
                 sonda1.dodajCzescDoPojazdu(czesc2);
+                sonda2.dodajCzescDoPojazdu(czesc3);
+                sonda2.dodajCzescDoPojazdu(czesc4);
+                prom1.dodajCzescDoPojazdu(czesc5);
+                prom1.dodajCzescDoPojazdu(czesc6);
+                prom1.dodajCzescDoPojazdu(czesc7);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -141,7 +162,9 @@ public class Main {
                 System.out.println("Załadowano wolną część: " + czesc);
             }
         }
-
+        //=======================
+        //=======================
+        //=======================
 
 
 

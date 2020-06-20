@@ -109,6 +109,7 @@ public class PrzegladGUI<T> {
                 SZFM_Enum.statusPrzegladu statusPrzegladu;
                 SZFM_Enum.statusNaprawy statusNaprawy;
                 String naprawaInfo = "Brak zatwierdzonych napraw.";
+                String wymianaCzesciInfo = "Brak wymienionych części.";
                 String przegladInfo;
                 String opisPrzegladu = "-";
                 String opisNaprawy;
@@ -136,13 +137,6 @@ public class PrzegladGUI<T> {
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
-                przegladInfo = "\nZatwierdzono przegląd nr: " + String.valueOf(nrPrzegladu) +
-                        " dla pojazdu " + pojazd.toString() + "" +
-                        "\nPrzegląd odbył się w placówce: " + placowka +
-                        "\nZa przeglad odpowiadał: " + inzynier +
-                        "\nSzczegóły przeglądu: " + przeglad.toString() +
-                        "\nWymóg naprawy: " + wymaganaNaprawa +
-                        "\nOpis przeglądu: " + opisPrzegladu;
 
 
                 if (pojazdWymagaNaprawyCheckBox.isSelected()) {
@@ -179,6 +173,11 @@ public class PrzegladGUI<T> {
                             pojazd.odlaczCzescOdPojazdu(staraCzesc);
                             pojazd.dodajCzescDoPojazdu(nowaCzesc);
                             naprawa.wymienionoCzesci(staraCzesc, nowaCzesc);
+
+                            wymianaCzesciInfo = "Wymieniono części: " +
+                                    "\n-wyrzucona część: " + staraCzesc +
+                                    "\n-zamontowana część: " + nowaCzesc;
+
                         } catch (Exception exception) {
                             exception.printStackTrace();
                         }
@@ -189,12 +188,22 @@ public class PrzegladGUI<T> {
                     statusNaprawy = SZFM_Enum.statusNaprawy.udana;
                 }
 
+                przegladInfo = "\nZatwierdzono przegląd nr: " + String.valueOf(nrPrzegladu) +
+                        " dla pojazdu " + pojazd.toString() + "" +
+                        "\nPrzegląd odbył się w placówce: " + placowka +
+                        "\nZa przeglad odpowiadał: " + inzynier +
+                        "\nSzczegóły przeglądu: " + przeglad.toString() +
+                        "\nWymóg naprawy: " + wymaganaNaprawa +
+                        "\nOpis przeglądu: " + opisPrzegladu;
+
 
                 System.out.println(przegladInfo);
                 System.out.println("\n" + naprawaInfo);
+                System.out.println("\n" + wymianaCzesciInfo);
 
-
-                JOptionPane.showMessageDialog(new JFrame(), przegladInfo + "\n" + naprawaInfo);
+                JOptionPane.showMessageDialog(new JFrame(), ">>>RAPORT PRZEGLĄDU<<<\n" +
+                        przegladInfo + "\n" + naprawaInfo +
+                        "\n" + wymianaCzesciInfo);
 
                 seWszystkotDomyslne();
 
