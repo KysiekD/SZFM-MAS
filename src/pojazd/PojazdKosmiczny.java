@@ -8,6 +8,7 @@ import ogolne.Placowka;
 import przeglad.Czesc;
 import przeglad.Przeglad;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import static mainPackage.SZFM_Enum.statusPojazdu.*;
@@ -58,7 +59,7 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         this.addLink(SZFM_Enum.asocjacjaPojazdCzesc.pojazd_z_czescia.toString(),
                 SZFM_Enum.asocjacjaPojazdCzesc.czesc_w_pojezdzie.toString(), czesc);
         czesci.add(czesc);
-        wszystkieCzesciWPojazdach.add(czesc);
+        PojazdKosmiczny.wszystkieCzesciWPojazdach.add(czesc);
 
         System.out.println("\n===Informacje o stworzonych asocjacjach:===");
         System.out.println("--> Dodano część: "+czesc+", do pojazdu: "+this);
@@ -75,6 +76,9 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         }
         this.removeLink(SZFM_Enum.asocjacjaPojazdCzesc.pojazd_z_czescia.toString(),
                 SZFM_Enum.asocjacjaPojazdCzesc.czesc_w_pojezdzie.toString(),czesc);
+
+        czesci.remove(czesc);
+        PojazdKosmiczny.wszystkieCzesciWPojazdach.remove(czesc);
 
         System.out.println("\n===Informacje o stworzonych asocjacjach:===");
         System.out.println("--> Usunieto czesc: "+czesc+", z pojazdu: "+this);
@@ -131,10 +135,29 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
                 SZFM_Enum.asocjacjaMisjaPojazd.misja_ma_przypisany_pojazd.toString(), misja);
     }
 
-
-
-    public static Set<Czesc> getWszystkieCzesciWPojazdach() {
+    public static Set<Czesc> getWszystkieCzesciWPojazdach() throws ClassNotFoundException {
         return wszystkieCzesciWPojazdach;
+    }
+
+
+
+    public static List<Czesc> dajUzywaneCzesci() throws ClassNotFoundException {
+
+        Iterable<SondaKosmiczna> sondy = SondaKosmiczna.getExtent(SondaKosmiczna.class);
+        Iterable<PromKosmiczny> promy = PromKosmiczny.getExtent(PromKosmiczny.class);
+        List<Czesc> czesciUzywane = new ArrayList<>();
+
+        for(PojazdKosmiczny sonda : sondy){
+            czesciUzywane.addAll(sonda.getCzesci());
+        }
+
+        for(PojazdKosmiczny prom : promy){
+            czesciUzywane.addAll(prom.getCzesci());
+        }
+
+
+        //return wszystkieCzesciWPojazdach;
+        return czesciUzywane;
     }
 
     public boolean czyWaznyPrzeglad(){
@@ -224,5 +247,9 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
 
     public void setStatusPojazdu(SZFM_Enum.statusPojazdu statusPojazdu) {
         this.statusPojazdu = statusPojazdu;
+    }
+
+    public List<Czesc> getCzesci() {
+        return czesci;
     }
 }

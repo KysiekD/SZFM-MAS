@@ -5,6 +5,7 @@ import pojazd.PojazdKosmiczny;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Czesc extends ObjectPlusPlus {
@@ -17,7 +18,7 @@ public class Czesc extends ObjectPlusPlus {
 
     public Czesc(String nazwa, double waga, double wagaElektroniki) {
         super();
-        najwyzszyNrCzesci = najwyzszyNrCzesci +1;
+        najwyzszyNrCzesci = najwyzszyNrCzesci + 1;
         this.nrCzesci = najwyzszyNrCzesci;
         this.nazwa = nazwa;
         this.waga = waga;
@@ -26,7 +27,8 @@ public class Czesc extends ObjectPlusPlus {
 
     //drugi konstruktor dla czesci bez elektroniki
     public Czesc(String nazwa, double waga) {
-        najwyzszyNrCzesci = najwyzszyNrCzesci +1;
+        super();
+        najwyzszyNrCzesci = najwyzszyNrCzesci + 1;
         this.nrCzesci = najwyzszyNrCzesci;
         this.nazwa = nazwa;
         this.waga = waga;
@@ -35,14 +37,13 @@ public class Czesc extends ObjectPlusPlus {
 
     public static Czesc dajCzesc(int nrCzesci) throws Exception {
         Iterable<Czesc> czesci = Czesc.getExtent(Czesc.class);
-        for(Czesc czesc: czesci){
-            if(czesc.getNrCzesci()==nrCzesci){
+        for (Czesc czesc : czesci) {
+            if (czesc.getNrCzesci() == nrCzesci) {
                 return czesc;
             }
         }
-        throw new Exception("Czesc o numerze "+nrCzesci+" nie została znaleziona!");
+        throw new Exception("Czesc o numerze " + nrCzesci + " nie została znaleziona!");
     }
-
 
 
     @Override
@@ -59,14 +60,27 @@ public class Czesc extends ObjectPlusPlus {
 
     public static ArrayList<Czesc> dajWolneCzesci() throws ClassNotFoundException {
         Iterable<Czesc> czesciWszystkie = Czesc.getExtent(Czesc.class);
-        Set<Czesc> czesciWPojazdach = PojazdKosmiczny.getWszystkieCzesciWPojazdach();
-        ArrayList<Czesc> czesciWolne = new ArrayList<>();
+        List<Czesc> czesciWPojazdach = PojazdKosmiczny.dajUzywaneCzesci();
 
-        for(Czesc czesc: czesciWszystkie){
-            if (!czesciWPojazdach.contains(czesc)) {
+        ArrayList<Czesc> czesciWolne = new ArrayList<>();
+        //==========
+        for(Czesc czesc : czesciWszystkie){
+            if(!czesciWPojazdach.contains(czesc)){
                 czesciWolne.add(czesc);
             }
         }
+
+
+        //==========
+        /*for(Czesc czesc: czesciWszystkie){
+            if (!czesciWPojazdach.contains(czesc)) {
+                czesciWolne.add(czesc);
+            }
+        }*/
+        //===========
+
+
+
         return czesciWolne;
     }
 
@@ -97,8 +111,6 @@ public class Czesc extends ObjectPlusPlus {
     public void setWaga(double waga) {
         this.waga = waga;
     }
-
-
 
 
 }
