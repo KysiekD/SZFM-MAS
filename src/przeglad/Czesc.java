@@ -16,6 +16,13 @@ public class Czesc extends ObjectPlusPlus {
     private double wagaElektroniki; //w kg
     private static int najwyzszyNrCzesci = 666771;
 
+    /**
+     * Konstruktor klasy Czesc która zawiera elektronikę.
+     *
+     * @param nazwa Nazwa własna części.
+     * @param waga Waga całkowita części. Netto.
+     * @param wagaElektroniki Waga elektroniki
+     */
     public Czesc(String nazwa, double waga, double wagaElektroniki) {
         super();
         najwyzszyNrCzesci = najwyzszyNrCzesci + 1;
@@ -25,6 +32,12 @@ public class Czesc extends ObjectPlusPlus {
         this.wagaElektroniki = wagaElektroniki; //nie moze byc wieksza niz waga calosci
     }
 
+    /**
+     * Konstruktor klasy Czesc która nie zawiera elektroniki.
+     *
+     * @param nazwa j.w.
+     * @param waga j.w.
+     */
     //drugi konstruktor dla czesci bez elektroniki
     public Czesc(String nazwa, double waga) {
         super();
@@ -35,6 +48,13 @@ public class Czesc extends ObjectPlusPlus {
         this.wagaElektroniki = 0;
     }
 
+    /**
+     * Zwraca część na podstawie podanego numeru części.
+     *
+     * @param nrCzesci Numer szukanej części.
+     * @return Zwraca wyszukaną część.
+     * @throws Exception Błąd jeśli szukana część nie istnieje w bazie.
+     */
     public static Czesc dajCzesc(int nrCzesci) throws Exception {
         Iterable<Czesc> czesci = Czesc.getExtent(Czesc.class);
         for (Czesc czesc : czesci) {
@@ -58,6 +78,12 @@ public class Czesc extends ObjectPlusPlus {
         return wagaElektroniki;
     }
 
+    /**
+     * Metoda pokazuje części które nie są częścią żadnego pojazdu.
+     *
+     * @return Zwraca listę wolnych części.
+     * @throws ClassNotFoundException
+     */
     public static ArrayList<Czesc> dajWolneCzesci() throws ClassNotFoundException {
         Iterable<Czesc> czesciWszystkie = Czesc.getExtent(Czesc.class);
         List<Czesc> czesciWPojazdach = PojazdKosmiczny.dajUzywaneCzesci();
@@ -69,18 +95,6 @@ public class Czesc extends ObjectPlusPlus {
                 czesciWolne.add(czesc);
             }
         }
-
-
-        //==========
-        /*for(Czesc czesc: czesciWszystkie){
-            if (!czesciWPojazdach.contains(czesc)) {
-                czesciWolne.add(czesc);
-            }
-        }*/
-        //===========
-
-
-
         return czesciWolne;
     }
 

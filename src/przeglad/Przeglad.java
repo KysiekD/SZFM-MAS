@@ -18,7 +18,13 @@ public class Przeglad extends ObjectPlusPlus {
     private List<Naprawa> naprawy;
     private static Set<Naprawa> wszystkieNaprawy = new HashSet<>();
 
-
+    /**
+     * Konstruktor klasy przegląd. Kostruktor prywatny.
+     * Przegląd tworzy się w metodzie rozpoczęcie nowego przegląu.
+     *
+     * @param dataPrzegladu Data zakończenia przeglądu.
+     * @param statusPrzegladu Status zakończonego przegląu.
+     */
     private Przeglad(Date dataPrzegladu, SZFM_Enum.statusPrzegladu statusPrzegladu) {
         super();
         najwyzszyNrPrzegladu = najwyzszyNrPrzegladu+1;
@@ -29,6 +35,15 @@ public class Przeglad extends ObjectPlusPlus {
         naprawy = new ArrayList<>();
     }
 
+    /**
+     * Metoda do tworzenia nowego przeglądu.
+     * Tworzy asocjację do pojazdu na zasadzie kompozycji.
+     *
+     * @param pojazd Pojazd dla którego dokonywany jest przegląd.
+     * @param statusPrzegladu Status zakończonego przeglądu.
+     * @return Zwraca nowo utworzony przegląd z powiązaniami.
+     * @throws Exception Jeśli nie istnieje taki pojazd.
+     */
     public static Przeglad rozpoczecieNowegoPrzegladu(PojazdKosmiczny pojazd,
                                            SZFM_Enum.statusPrzegladu statusPrzegladu) throws Exception {
         if(pojazd==null){
@@ -48,6 +63,12 @@ public class Przeglad extends ObjectPlusPlus {
         return przeglad;
     }
 
+    /**
+     * Tworzy asocjację między przeglądem a naprawą. Naprawa odbywa się w ramach przeglądu.
+     *
+     * @param naprawa Dana naprawa.
+     * @throws Exception Jeśli naprawa nie istnieje.
+     */
     public void addNaprawa(Naprawa naprawa) throws Exception {
         if(!naprawy.contains(naprawa)) {
             if(wszystkieNaprawy.contains(naprawa)) {
@@ -61,6 +82,11 @@ public class Przeglad extends ObjectPlusPlus {
 
     }
 
+    /**
+     * Dodaje opis przeglądu do przeglądu.
+     *
+     * @param opisPrzegladu Opis.
+     */
     public void setOpisPrzegladu(String opisPrzegladu) {
         this.opisPrzegladu = opisPrzegladu;
     }

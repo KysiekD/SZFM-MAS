@@ -5,6 +5,7 @@ import mainPackage.SZFM_Enum;
 
 import java.util.ArrayList;
 
+
 public class MisjaKosmiczna extends ObjectPlusPlus {
     private String nazwaMisji;
     private int nrMisji;
@@ -15,10 +16,11 @@ public class MisjaKosmiczna extends ObjectPlusPlus {
     private static int najwyzszyNrMisji = 50;
 
     /**
+     * Konstruktor klasy.
      *
-     * @param nazwaMisji
-     * @param odlegloscDoCeluWParsekach
-     * @param lotZalogowy
+     * @param nazwaMisji Nazwa własna misji.
+     * @param odlegloscDoCeluWParsekach Odległość do celu misji wyrażona w parsekach.
+     * @param lotZalogowy Informacja (true/false) czy lot jest załogowy czy też nie.
      */
     public MisjaKosmiczna(String nazwaMisji, int odlegloscDoCeluWParsekach, boolean lotZalogowy) {
         super();
@@ -29,6 +31,13 @@ public class MisjaKosmiczna extends ObjectPlusPlus {
         this.lotZalogowy = lotZalogowy;
     }
 
+    /**
+     * Zwraca misję po podaniu jej numeru.
+     *
+     * @param nrMisji Unikalny numer misji.
+     * @return Zwraca misję.
+     * @throws Exception Jeśli w bazie nie istnieje misja o takim numerze zostaje zwrócony błąd.
+     */
     public static MisjaKosmiczna znajdzMisje(int nrMisji) throws Exception {
         MisjaKosmiczna znalezionaMisja = null;
         for(MisjaKosmiczna misja: MisjaKosmiczna.getExtent(MisjaKosmiczna.class)){
@@ -41,19 +50,35 @@ public class MisjaKosmiczna extends ObjectPlusPlus {
 
     }
 
+
     public int wyliczCzasTrwania(){
         //..
         return 0;
     }
 
-    public void zmienStatusMisji(){
+    /**
+     * Zmienia status danej misji.
+     *
+     * @param status Status docelowy.
+     */
+    public void zmienStatusMisji(SZFM_Enum.statusMisji status){
         //..
     }
 
+    /**
+     * Zwraca listę wszystkich misji dostępnych w bazie.
+     *
+     * @return Wszystkie misje.
+     */
     public static ArrayList<MisjaKosmiczna> pokazWszystkieMisje(){
         return null;
     }
 
+    /**
+     * Zwraca numer misji.
+     *
+     * @return Numer misji.
+     */
     public int getNrMisji() {
         return nrMisji;
     }

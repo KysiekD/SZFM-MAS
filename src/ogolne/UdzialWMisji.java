@@ -13,6 +13,15 @@ public class UdzialWMisji extends ObjectPlusPlus {
     private MisjaKosmiczna misja;
     private Pracownik pracownik;
 
+    /**
+     * Konstruktor klasy. Jest to klasa pośrednicząca, czyli klasa asocjacyjna między misją a pracownikiem.
+     *
+     * @param dataRozpoczeciaPracy Informacja o dniu rozpoczęcia pracy przy danej misji przez pracownika.
+     * @param dataZakonczeniaPracy Dzień zakończenia pracy przy misji.
+     * @param nazwaStanowiska Stanowisko na jakim przydzielony został pracownik.
+     * @param misja Powiązana misja.
+     * @param pracownik Powiązany pracownik.
+     */
     public UdzialWMisji(Date dataRozpoczeciaPracy, Date dataZakonczeniaPracy, String nazwaStanowiska,
                         MisjaKosmiczna misja, Pracownik pracownik) {
         super();
@@ -24,7 +33,13 @@ public class UdzialWMisji extends ObjectPlusPlus {
         powiazMisjeZPracownikiem(misja,pracownik);
     }
 
-    public void powiazMisjeZPracownikiem(MisjaKosmiczna misja, Pracownik pracownik){
+    /**
+     * Tworzy powiązanie misji z pracownikiem. Klasa używana w konstruktorze.
+     *
+     * @param misja Dana misja.
+     * @param pracownik Dany pracownik.
+     */
+    private void powiazMisjeZPracownikiem(MisjaKosmiczna misja, Pracownik pracownik){
         misja.addLink(SZFM_Enum.asocjacjaMisjaUdzialPracownik.misja_z_pracownikiem.toString(),
                 SZFM_Enum.asocjacjaMisjaUdzialPracownik.udzial_pracownika.toString(),this);
         pracownik.addLink(SZFM_Enum.asocjacjaMisjaUdzialPracownik.misja_z_pracownikiem.toString(),

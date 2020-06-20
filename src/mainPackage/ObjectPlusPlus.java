@@ -11,6 +11,11 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
     // Stores information about all parts connected with any objects:
     private static Set<ObjectPlusPlus> allParts = new HashSet<>();
 
+    /**
+     * Konstruktor klasy ObjectPlusPlus.
+     * Klasa ta dziedziczy po klasie ObjectPlus.
+     * Zadaniem głównym tej klasy jest umożliwienie i usprawnienie konstrukcji oraz operacji na asocjacjach.
+     */
     public ObjectPlusPlus() {
         super();
     }
@@ -40,14 +45,40 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
             targetObject.addLink(reverseRoleName, roleName, this, this, counter - 1);
         }
     }
+
+    /**
+     * Metoda do tworzenia asocjacji kwalifikowanej między obiektami.
+     *
+     * @param roleName Nazwa roli po stronie głównego obiektu.
+     * @param reverseRoleName Nazwa roli po stronie obiektu wiązanego.
+     * @param targetObject Obiekt który jest wiązany.
+     * @param qualifier Kwalifikator/pole/index z klasy wiązanej.
+     */
     //Do asocjacji kwalifikowanej:
     public void addLink(String roleName, String reverseRoleName, ObjectPlusPlus targetObject, Object qualifier) {
         addLink(roleName, reverseRoleName, targetObject, qualifier, 2);
     }
+
+    /**
+     * Umożliwia tworzenie asocjacji zwykłej.
+     *
+     * @param roleName Nazwa roli po stronie głównego obiektu.
+     * @param reverseRoleName Nazwa roli po stronie obiektu wiązanego.
+     * @param targetObject Obiekt który jest wiązany.
+     */
     //do asocjacji bez kwalifikatora.:
     public void addLink(String roleName, String reverseRoleName, ObjectPlusPlus targetObject) {
         addLink(roleName, reverseRoleName, targetObject, targetObject);
     }
+
+    /**
+     * Do tworzenia asocjacji na zasadzie kompozycji.
+     *
+     * @param roleName Nazwa roli po stronie głównego obiektu.
+     * @param reverseRoleName Nazwa roli po stronie obiektu wiązanego.
+     * @param partObject Object który stanie się częścią głównego obiektu.
+     * @throws Exception Jeśli obiekt który ma być częścią jest powiązany z innym obiektem w tej relacji.
+     */
     //Do kompozycji:
     public void addPart(String roleName, String reverseRoleName, ObjectPlusPlus partObject) throws Exception {
         // Check if the part exist somewhere
@@ -60,6 +91,13 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
 
     }
 
+    /**
+     * Zwraca informacje o powiązaniach danego obiektu w ramach danej asocjacji.
+     *
+     * @param roleName Nazwa asocjacji.
+     * @return Tablica obiektów.
+     * @throws Exception Jeśli klasa nie istnieje.
+     */
     public ObjectPlusPlus[] getLinks(String roleName) throws Exception {
         Map<Object, ObjectPlusPlus> objectLinks;
 
@@ -71,6 +109,13 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
         return(ObjectPlusPlus[]) objectLinks.values().toArray(new ObjectPlusPlus[0]);
     }
 
+    /**
+     * Wyświetla informacje o powiązaniach danego obiektu w ramach danej asocjacji.
+     *
+     * @param roleName Nazwa asocjacji.
+     * @param stream Strumień gdzie mają zostać wypisane informacje.
+     * @throws Exception Jeśli klasa nie istnieje.
+     */
     public void showLinks(String roleName, PrintStream stream) throws Exception {
         Map<Object,ObjectPlusPlus> objectLinks;
         if(!links.containsKey(roleName)) {
@@ -85,6 +130,15 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
             stream.println("       "+obj);
         }
     }
+
+    /**
+     * Metoda zwracająca obiekt docelowy na podstawie kwalifikatora. Wykorzystywana jest tylko w przypadku asocjacji kwalifikowanej.
+     *
+     * @param roleName Nazwa asocjacji.
+     * @param qualifier Index.
+     * @return Zwraca obiekt.
+     * @throws Exception
+     */
     //Metoda zwracająca obiekt docelowy na podstawie kwalifikatora. Wykorzystywana jest tylko w przypadku asocjacji kwalifikowanej.:
     public ObjectPlusPlus getLinkedObject(String roleName, Object qualifier) throws Exception {
         Map<Object, ObjectPlusPlus> objectLinks;
@@ -102,6 +156,11 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
 
     }
 
+    /**
+     * Usuwa powiązanie między obiektami. Klasa prywatna.
+     * Tak naprawdę używane są jej przesłonięcia.
+     *
+     */
     private void removeLink(String roleName, String reverseRoleName, ObjectPlusPlus targetObject, Object qualifier, int counter) throws Exception {
         if (counter<1) return;
         Map<Object, ObjectPlusPlus> objectLinks;
@@ -119,10 +178,27 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
 
     }
 
+    /**
+     * Usuwa powiązanie między obiektami w przypadku asocjacji z kwalifikatorem.
+     *
+     * @param roleName Nazwa asocjacji.
+     * @param reverseRoleName Nazwa asocjacji po drugiej stronie.
+     * @param targetObject Obiekt usuwany.
+     * @param qualifier Kwalifikator
+     * @throws Exception Jeśli któryś z obiektów nie istnieje.
+     */
     public void removeLink(String roleName, String reverseRoleName, ObjectPlusPlus targetObject, Object qualifier) throws Exception {
         removeLink(roleName, reverseRoleName, targetObject, qualifier, 2);
     }
 
+    /**
+     * Usuwa powiązanie między obiektami w przypadku asocjacji zwykłej.
+     *
+     * @param roleName Nazwa asocjacji.
+     * @param reverseRoleName Nazwa asocjacji po drugiej stronie.
+     * @param targetObject Obiekt usuwany.
+     * @throws Exception Jeśli któryś z obiektów nie istnieje.
+     */
     public void removeLink(String roleName, String reverseRoleName, ObjectPlusPlus targetObject) throws Exception {
         removeLink(roleName, reverseRoleName, targetObject, targetObject, 2);
     }

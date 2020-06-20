@@ -9,6 +9,11 @@ public class Naprawa extends ObjectPlusPlus {
     private SZFM_Enum.statusNaprawy statusNaprawy;
     private static int najwyzszyNrNaprawy = 87722;
 
+    /**
+     * Konstruktor klasy naprawa. Prywatny ponieważ używany jest w metodzie rozpocznijNowaNaprawe().
+     *
+     * @param statusNaprawy
+     */
     private Naprawa(SZFM_Enum.statusNaprawy statusNaprawy) {
         super();
         najwyzszyNrNaprawy = najwyzszyNrNaprawy +1;
@@ -16,6 +21,14 @@ public class Naprawa extends ObjectPlusPlus {
         this.statusNaprawy = statusNaprawy;
     }
 
+    /**
+     * Metoda tworzącą nową naprawę oraz asocjację do przeglądu na zasadzie kompozycji.
+     *
+     * @param przeglad Powiązany przegląd.
+     * @param statusNaprawy Status naprawy.
+     * @return Zwraca nowostworzoną naprawę z powiazaniem do Przeglądu.
+     * @throws Exception Jeśli przegląd nie istnieje.
+     */
     public static Naprawa rozpocznijNowaNaprawe(Przeglad przeglad,
                                                 SZFM_Enum.statusNaprawy statusNaprawy) throws Exception {
         if(przeglad==null){
@@ -32,6 +45,13 @@ public class Naprawa extends ObjectPlusPlus {
         return naprawa;
     }
 
+    /**
+     * Metoda tworząca nowe powiązanie części z pojazdem, oraz uzuwająca powiązanie starej części z pojazdem.
+     *
+     * @param staraCzesc Stara częśc która została wyrzucona z pojazdu.
+     * @param nowaCzesc Nowa część która została dodana do pojazdu w miejsce starej.
+     * @throws Exception Jeśli któraś z podanych częśći nie istnieje w systemie.
+     */
     public void wymienionoCzesci(Czesc staraCzesc, Czesc nowaCzesc) throws Exception {
         this.addLink(SZFM_Enum.asocjacjaCzescNaprawa.naprawa_z_wyrzucona_czescia.toString(),
                 SZFM_Enum.asocjacjaCzescNaprawa.czesc_wyrzucona_podczas_naprawy.toString(),staraCzesc);

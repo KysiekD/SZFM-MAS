@@ -27,7 +27,13 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
     private List<Czesc> czesci = new ArrayList<>();
     private static Set<Czesc> wszystkieCzesciWPojazdach = new HashSet<>();
 
-
+    /**
+     * Klasa pojazdu kosmicznego. Jest to nad-klasa abstrakcyjna.
+     *
+     * @param nazwa Nazwa własna pojazdu.
+     * @param rokProdukcji Rok produkcji pojazdu.
+     * @param maksymalnyZasiegWParsekach Zasięg maksymalny wyrażony w parsekach.
+     */
     protected PojazdKosmiczny(String nazwa, int rokProdukcji, int maksymalnyZasiegWParsekach) {
         super();
         this.nazwa = nazwa;
@@ -38,6 +44,12 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         statusPojazdu = gotowy;
     }
 
+    /**
+     * Tworzy asocjację między pojazdem a przeglądem. Przegląd dotyczy pojazdu.
+     *
+     * @param przeglad Dany przegląd.
+     * @throws Exception Jeśli pojazd lub przegląd nie istnieją.
+     */
     public void addPrzeglad(Przeglad przeglad) throws Exception {
         if(!przeglady.contains(przeglad)) {
             if (wszystkiePrzegladyList.contains(przeglad)) {
@@ -50,6 +62,12 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
                 SZFM_Enum.asocjacjaPojazdPrzeglad.przeglad_pojazdu.toString(), przeglad);
     }
 
+    /**
+     * Dodaje nową część do pojazdu. Tworzy powiązanie.
+     *
+     * @param czesc Dana część.
+     * @throws Exception Jeśli część lub pojazd nie istnieją w bazie.
+     */
     public void dodajCzescDoPojazdu(Czesc czesc) throws Exception {
         if(!czesci.contains(czesc)) {
             if (wszystkieCzesciWPojazdach.contains(czesc)) {
@@ -70,6 +88,12 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
 
     }
 
+    /**
+     * Usuwa powiązanie między pojazdem a częścią.
+     *
+     * @param czesc Dana część która jest odłączana od pojazdu.
+     * @throws Exception Jeśli część lub pojazd nie istnieją.
+     */
     public void odlaczCzescOdPojazdu(Czesc czesc) throws Exception {
         if(!czesci.contains(czesc)){
             throw new Exception("Tej części nie ma w tym pojeździe!");
@@ -89,14 +113,17 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
     }
 
 
-
+    /**
+     *
+     * @return Zwraca listę części które ma w sobie pojazd.
+     */
     public List<Czesc> dajCzesciPojazdu(){
         return czesci;
     }
 
     /**
-     * jeśli nie ma ekstensji którejś klasy to zostanie przechwycony błąd
-     * @return
+     *
+     * @return Zwraca listę wszystkicn pojazdów.
      */
     public static ArrayList<PojazdKosmiczny> dajListaPojazdow()   {
         ArrayList<PojazdKosmiczny> listaPojazdow = new ArrayList<>();
@@ -118,6 +145,13 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         return listaPojazdow;
     }
 
+    /**
+     * Zwraca pojazd na podstawie jego numeru identyfikacyjnego.
+     *
+     * @param nrPojazdu Unikalny nr szukanego pojazdu.
+     * @return Zwraca pojazd.
+     * @throws Exception Jeśli pojazd o podanym numerze nie istnieje w bazie.
+     */
     public static PojazdKosmiczny dajPojazd(int nrPojazdu) throws Exception {
 
         ArrayList<PojazdKosmiczny> listaPojazdow = PojazdKosmiczny.dajListaPojazdow();
@@ -130,17 +164,33 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         throw new Exception("Nie znaleziono pojazdu o numerze: "+String.valueOf(nrPojazdu));
     }
 
+    /**
+     * Tworzy powiązanie między pojazdem a misją. Pojazd jest wysyłany na misję.
+     *
+     * @param misja Dana misja.
+     */
     public void powiazPojazdZMisja(MisjaKosmiczna misja){
         this.addLink(SZFM_Enum.asocjacjaMisjaPojazd.pojazd_bierze_udzial_w_misji.toString(),
                 SZFM_Enum.asocjacjaMisjaPojazd.misja_ma_przypisany_pojazd.toString(), misja);
     }
 
-    public static Set<Czesc> getWszystkieCzesciWPojazdach() throws ClassNotFoundException {
+    /**
+     * Metoda wewnętrzna, pomocnicza, wykorzystywana w metodzie dajUzywaneCzesci()
+     *
+     * @return Zwraca listę wszystkich części jakie są zamontowane w pojazdach.
+     * @throws ClassNotFoundException Jeśli klasa nie istnieje.
+     */
+    private static Set<Czesc> getWszystkieCzesciWPojazdach() throws ClassNotFoundException {
         return wszystkieCzesciWPojazdach;
     }
 
 
-
+    /**
+     * Zwraca listę części które są używane w pojazdach.
+     *
+     * @return Lista części w pojazdach.
+     * @throws ClassNotFoundException Jeśli klasa nie istnieje.
+     */
     public static List<Czesc> dajUzywaneCzesci() throws ClassNotFoundException {
 
         Iterable<SondaKosmiczna> sondy = SondaKosmiczna.getExtent(SondaKosmiczna.class);
@@ -175,6 +225,11 @@ public abstract class PojazdKosmiczny extends ObjectPlusPlus {
         //..............
     }
 
+    /**
+     * Pozwala na zmianę statusu pojazdu.
+     *
+     * @param status Status docelowy.
+     */
     public void zmienStatus(SZFM_Enum.statusPojazdu status){
         this.statusPojazdu = status;
     }
